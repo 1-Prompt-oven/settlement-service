@@ -1,0 +1,37 @@
+spring:
+  application:
+    name: settlement-service
+  config:
+    import: "optional:configserver:http://localhost:8888"
+  cloud:
+    config:
+      uri: http://localhost:8888
+      fail-fast: true
+  datasource:
+    url: jdbc:mysql://localhost:3306/settlement
+    username: root
+    password: 1234
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+server:
+  port: 0
+  shutdown: graceful
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+    register-with-eureka: true
+    fetch-registry: true
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+
+encrypter:
+  secret-key: "IQDVvuZqN2ulwDf2qcPJ/J9kJqxkxhKApAvLf2bh3zw="
