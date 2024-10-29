@@ -1,4 +1,4 @@
-package com.promptoven.settlementservice.adaptor.infrastructure.web.controller.vo.out;
+package com.promptoven.settlementservice.adaptor.web.controller.vo.out;
 
 import com.promptoven.settlementservice.application.port.out.dto.SettlementProfileFullInfoDTO;
 
