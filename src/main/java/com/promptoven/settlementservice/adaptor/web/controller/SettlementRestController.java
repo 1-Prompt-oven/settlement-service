@@ -1,4 +1,4 @@
-package com.promptoven.settlementservice.adaptor.infrastructure.web.controller;
+package com.promptoven.settlementservice.adaptor.web.controller;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -11,13 +11,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.promptoven.settlementservice.adaptor.infrastructure.web.controller.vo.in.CreateSettlementProfileRequestVO;
-import com.promptoven.settlementservice.adaptor.infrastructure.web.controller.vo.in.UpdateAccountRequestVO;
-import com.promptoven.settlementservice.adaptor.infrastructure.web.controller.vo.in.UpdateAddressRequestVO;
-import com.promptoven.settlementservice.adaptor.infrastructure.web.controller.vo.in.UpdatePhoneRequestVO;
-import com.promptoven.settlementservice.adaptor.infrastructure.web.controller.vo.in.UpdateTaxIDRequestVO;
-import com.promptoven.settlementservice.adaptor.infrastructure.web.controller.vo.out.SettlementProfileFullResponseVO;
-import com.promptoven.settlementservice.adaptor.infrastructure.web.controller.vo.out.SettlementProfileResponseVO;
+import com.promptoven.settlementservice.adaptor.web.controller.vo.in.CreateSettlementProfileRequestVO;
+import com.promptoven.settlementservice.adaptor.web.controller.vo.in.UpdateAccountRequestVO;
+import com.promptoven.settlementservice.adaptor.web.controller.vo.in.UpdateAddressRequestVO;
+import com.promptoven.settlementservice.adaptor.web.controller.vo.in.UpdatePhoneRequestVO;
+import com.promptoven.settlementservice.adaptor.web.controller.vo.in.UpdateTaxIDRequestVO;
+import com.promptoven.settlementservice.adaptor.web.controller.vo.out.SettlementProfileFullResponseVO;
+import com.promptoven.settlementservice.adaptor.web.controller.vo.out.SettlementProfileResponseVO;
 import com.promptoven.settlementservice.application.port.in.usecase.SettlementProfileUseCase;
 
 import lombok.RequiredArgsConstructor;
