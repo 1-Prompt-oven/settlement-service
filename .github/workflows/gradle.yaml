@@ -43,14 +43,15 @@ jobs:
           docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/settlement-service . 
           docker push ${{ secrets.DOCKERHUB_USERNAME }}/settlement-service
 
-      - name: make directory
+      - name: remove docker-compose.yml
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ubuntu
           key: ${{ secrets.EC2_KEY }}
           script: |
-            mkdir -p /home/ubuntu/settlement-service
+            cd /home/ubuntu/settlement-service
+            sudo rm -rf docker-compose.yml
 
       - name: transfer docker-compose.yml
         uses: appleboy/scp-action@master
@@ -59,7 +60,7 @@ jobs:
           username: ubuntu
           key: ${{ secrets.EC2_KEY }}
           source: docker-compose.yml
-          target: /home/ubuntu/settlement-service/docker-compose.yml
+          target: /home/ubuntu/settlement-service/
 
       - name: Deploy to EC2
         uses: appleboy/ssh-action@master
