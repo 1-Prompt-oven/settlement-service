@@ -6,7 +6,7 @@ spring:
   cloud:
     config:
       uri: http://localhost:8888
-      fail-fast: true
+      fail-fast: false
   datasource:
     url: jdbc:mysql://localhost:3306/settlement
     username: root
@@ -35,3 +35,35 @@ eureka:
 
 encrypter:
   secret-key: "IQDVvuZqN2ulwDf2qcPJ/J9kJqxkxhKApAvLf2bh3zw="
+
+---
+spring:
+  config:
+    activate:
+      on-profile: prod
+  datasource:
+    url: jdbc:mysql://mysql:3306/auth
+    username: root
+    password: 1234
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.MySQL8Dialect
+    generate-ddl: true
+server:
+  port: 8080
+  shutdown: graceful
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://discovery:8761/eureka/
+    register-with-eureka: true
+    fetch-registry: true
+  instance:
+    prefer-ip-address: false
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
