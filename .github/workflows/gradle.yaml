@@ -71,7 +71,6 @@ jobs:
           script: |
             sudo docker rm -f settlement-service || true
             sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/settlement-service
-            mkdir -p /home/ubuntu/settlement-service
             cd /home/ubuntu/settlement-service
             echo "SPRING_PROFILES_ACTIVE=prod" > .env
             sudo docker-compose up -d
