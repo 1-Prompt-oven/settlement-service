@@ -23,6 +23,12 @@ server:
   port: 0
   shutdown: graceful
 
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+
 eureka:
   client:
     serviceUrl:
@@ -42,7 +48,7 @@ spring:
     activate:
       on-profile: prod
   datasource:
-    url: jdbc:mysql://mysql:3306/auth
+    url: jdbc:mysql://mysql:3306/settlement
     username: root
     password: 1234
     driver-class-name: com.mysql.cj.jdbc.Driver
