@@ -36,7 +36,7 @@ public class SettlementProfileService implements SettlementProfileUseCase {
 
 		String settlementProfileID = UUID.randomUUID().toString();
 		// 중복 UUID 생성 방지 위해서 while loop 도입
-		while (null == settlementProfilePersistence.getSettlementProfileByProfileID(settlementProfileID)) {
+		while (null != settlementProfilePersistence.getSettlementProfileByProfileID(settlementProfileID)) {
 			settlementProfileID = UUID.randomUUID().toString();
 		}
 
