@@ -1,6 +1,6 @@
 package com.promptoven.settlementservice.adaptor.web.controller.vo.out;
 
-import com.promptoven.settlementservice.application.port.out.dto.SettlementProfileFullInfoDTO;
+import com.promptoven.settlementservice.application.port.out.dto.SettlementProfileDTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,16 +21,16 @@ public class SettlementProfileFullResponseVO {
 	private String postcode;
 	private String address;
 
-	public static SettlementProfileFullResponseVO fromDTO(SettlementProfileFullInfoDTO settlementProfileFullInfoDTO) {
+	public static SettlementProfileFullResponseVO fromDTO(SettlementProfileDTO settlementProfileDTO) {
 		return SettlementProfileFullResponseVO.builder()
-			.memberID(settlementProfileFullInfoDTO.getMemberID())
-			.settlementProfileID(settlementProfileFullInfoDTO.getSettlementProfileID())
-			.taxID(settlementProfileFullInfoDTO.getTaxID())
-			.accountID(settlementProfileFullInfoDTO.getAccountID())
-			.bankName(settlementProfileFullInfoDTO.getBankName())
-			.phone(settlementProfileFullInfoDTO.getPhone())
-			.postcode(settlementProfileFullInfoDTO.getPostcode())
-			.address(settlementProfileFullInfoDTO.getAddress())
+			.memberID(settlementProfileDTO.getMemberID())
+			.settlementProfileID(settlementProfileDTO.getSettlementProfileID())
+			.taxID(settlementProfileDTO.getTaxID())
+			.accountID(settlementProfileDTO.getAccountID())
+			.bankName(settlementProfileDTO.getBankName())
+			.phone(settlementProfileDTO.getPhone())
+			.postcode(settlementProfileDTO.getPostcode())
+			.address(settlementProfileDTO.getAddress())
 			.build();
 	}
 

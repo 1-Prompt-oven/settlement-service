@@ -1,13 +1,14 @@
-package com.promptoven.settlementservice.adaptor.infrastructure.jpa;
+package com.promptoven.settlementservice.adaptor.jpa;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
-import com.promptoven.settlementservice.adaptor.infrastructure.jpa.entity.SettlementProfileEntity;
-import com.promptoven.settlementservice.adaptor.infrastructure.jpa.repository.SettlementProfileRepository;
+import com.promptoven.settlementservice.adaptor.jpa.entity.SettlementProfileEntity;
+import com.promptoven.settlementservice.adaptor.jpa.repository.SettlementProfileRepository;
 import com.promptoven.settlementservice.application.port.out.call.SettlementProfilePersistence;
+import com.promptoven.settlementservice.application.port.out.dto.SettlementProfileDTO;
 import com.promptoven.settlementservice.domain.SettlementProfile;
 
 import lombok.RequiredArgsConstructor;
@@ -21,13 +22,14 @@ public class SettlementPersistenceImplByJpa implements SettlementProfilePersiste
 	private final SettlementProfileRepository settlementProfileRepository;
 
 	@Override
-	public void createSettlementProfile(SettlementProfile settlementProfile) {
-		settlementProfileRepository.save(SettlementProfileEntity.fromDomain(settlementProfile));
+	public void create(SettlementProfile settlementProfile) {
+		settlementProfileRepository.save(JpaSettlementProfileDTOEntityMapper.fromDTO(settlementProfile));
 	}
 
 	@Override
 	public void updateSettlementProfile(SettlementProfile settlementProfile) {
-		SettlementProfileEntity settlementProfileEntity = SettlementProfileEntity.fromDomain(settlementProfile);
+		SettlementProfileEntity settlementProfileEntity =
+			JpaSettlementProfileDTOEntityMapper.fromDTO(settlementProfile);
 		SettlementProfileEntity oldSettlementProfileEntity = settlementProfileRepository.findBySettlementProfileID(
 			settlementProfile.getSettlementProfileID());
 		settlementProfileEntity.SetID(oldSettlementProfileEntity.getId());
@@ -35,14 +37,14 @@ public class SettlementPersistenceImplByJpa implements SettlementProfilePersiste
 	}
 
 	@Override
-	public List<SettlementProfile> getAllSettlementProfile(String memberID) {
+	public List<SettlementProfileDTO> getAll(String memberID) {
 		return settlementProfileRepository.findByMemberID(memberID).stream()
-			.map(SettlementProfileEntity::toDomain)
+			.map(JpaSettlementProfileDTOEntityMapper::toDTO)
 			.collect(Collectors.toList());
 	}
 
 	@Override
-	public SettlementProfile getSettlementProfileByProfileID(String profileID) {
+	public SettlementProfile getByProfileID(String profileID) {
 		SettlementProfileEntity foundSettlemnetProfileEntity = settlementProfileRepository.findBySettlementProfileID(
 			profileID);
 		return null != foundSettlemnetProfileEntity ? foundSettlemnetProfileEntity.toDomain() : null;
