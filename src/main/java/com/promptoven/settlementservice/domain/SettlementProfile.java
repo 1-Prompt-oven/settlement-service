@@ -1,5 +1,9 @@
 package com.promptoven.settlementservice.domain;
 
+import com.promptoven.settlementservice.domain.dto.AddressModelDTO;
+import com.promptoven.settlementservice.domain.dto.BankAccountModelDTO;
+import com.promptoven.settlementservice.domain.dto.SettlementProfileModelDTO;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -19,17 +23,16 @@ public class SettlementProfile {
 	private String postcode;
 	private String address;
 
-	public static SettlementProfile createSettlementProfile(String memberID, String settlementProfileID, String taxID,
-		String accountID, String bankName, String phone, String postcode, String address) {
+	public static SettlementProfile createSettlementProfile(SettlementProfileModelDTO settlementProfileModelDTO) {
 		return SettlementProfile.builder()
-			.memberID(memberID)
-			.settlementProfileID(settlementProfileID)
-			.taxID(taxID)
-			.accountID(accountID)
-			.bankName(bankName)
-			.phone(phone)
-			.postcode(postcode)
-			.address(address)
+			.memberID(settlementProfileModelDTO.getMemberID())
+			.settlementProfileID(settlementProfileModelDTO.getSettlementProfileID())
+			.taxID(settlementProfileModelDTO.getTaxID())
+			.accountID(settlementProfileModelDTO.getAccountID())
+			.bankName(settlementProfileModelDTO.getBankName())
+			.phone(settlementProfileModelDTO.getPhone())
+			.postcode(settlementProfileModelDTO.getPostcode())
+			.address(settlementProfileModelDTO.getAddress())
 			.build();
 	}
 
@@ -46,13 +49,14 @@ public class SettlementProfile {
 			.build();
 	}
 
-	public static SettlementProfile updateAccount(SettlementProfile oldProfile, String accountID, String bankName) {
+	public static SettlementProfile updateAccount(SettlementProfile oldProfile,
+		BankAccountModelDTO bankAccountModelDTO) {
 		return SettlementProfile.builder()
 			.memberID(oldProfile.getMemberID())
 			.settlementProfileID(oldProfile.getSettlementProfileID())
 			.taxID(oldProfile.getTaxID())
-			.accountID(accountID)
-			.bankName(bankName)
+			.accountID(bankAccountModelDTO.getAccountID())
+			.bankName(bankAccountModelDTO.getBankName())
 			.phone(oldProfile.getPhone())
 			.postcode(oldProfile.getPostcode())
 			.address(oldProfile.getAddress())
@@ -72,7 +76,7 @@ public class SettlementProfile {
 			.build();
 	}
 
-	public static SettlementProfile updateAddress(SettlementProfile oldProfile, String postcode, String address) {
+	public static SettlementProfile updateAddress(SettlementProfile oldProfile, AddressModelDTO addressModelDTO) {
 		return SettlementProfile.builder()
 			.memberID(oldProfile.getMemberID())
 			.settlementProfileID(oldProfile.getSettlementProfileID())
@@ -80,8 +84,8 @@ public class SettlementProfile {
 			.accountID(oldProfile.getAccountID())
 			.bankName(oldProfile.getBankName())
 			.phone(oldProfile.getPhone())
-			.postcode(postcode)
-			.address(address)
+			.postcode(addressModelDTO.getPostcode())
+			.address(addressModelDTO.getAddress())
 			.build();
 	}
 

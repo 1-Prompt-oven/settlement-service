@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.promptoven.settlementservice.adaptor.web.controller.mapper.CreateSettlementProfileRequestMapper;
+import com.promptoven.settlementservice.adaptor.web.controller.mapper.SettlementProfileResponseMapper;
 import com.promptoven.settlementservice.adaptor.web.controller.vo.in.CreateSettlementProfileRequestVO;
 import com.promptoven.settlementservice.adaptor.web.controller.vo.in.UpdateAccountRequestVO;
 import com.promptoven.settlementservice.adaptor.web.controller.vo.in.UpdateAddressRequestVO;
@@ -34,7 +36,8 @@ public class SettlementRestController {
 	@PostMapping("/member/settlement/profile")
 	public void createSettlementProfile(
 		@RequestBody CreateSettlementProfileRequestVO createSettlementProfileRequestVO) {
-		settlementProfileUseCase.createSettlementProfile(createSettlementProfileRequestVO.toDTO());
+		settlementProfileUseCase.createSettlementProfile(
+			CreateSettlementProfileRequestMapper.toDTO(createSettlementProfileRequestVO));
 	}
 
 	@PutMapping("/seller/settlement/profile/account")
@@ -62,13 +65,12 @@ public class SettlementRestController {
 	@GetMapping("/seller/settlement/profile")
 	public List<SettlementProfileResponseVO> getMySettlementProfiles(@RequestBody String memberUUID) {
 		return settlementProfileUseCase.getMySettlementProfiles(memberUUID).stream()
-			.map(SettlementProfileResponseVO::fromDomain)
-			.collect(Collectors.toList());
+			.map(SettlementProfileResponseMapper::toResponseVO).collect(Collectors.toList());
 	}
 
 	@GetMapping("/seller/settlement/profile/{profileUUID}")
 	public SettlementProfileFullResponseVO getSettlementProfileFullInfo(@PathVariable String profileUUID) {
-		return SettlementProfileFullResponseVO.fromDTO(
+		return SettlementProfileResponseMapper.toFullResponseVO(
 			settlementProfileUseCase.getSettlementProfileFullInfo(profileUUID));
 	}
 }

@@ -3,8 +3,7 @@ package com.promptoven.settlementservice.application.port.in.usecase;
 import java.util.List;
 
 import com.promptoven.settlementservice.application.port.in.dto.CreateSettlementProfileRequestDTO;
-import com.promptoven.settlementservice.application.port.out.dto.SettlementProfileFullInfoDTO;
-import com.promptoven.settlementservice.domain.SettlementProfile;
+import com.promptoven.settlementservice.application.port.out.dto.SettlementProfileDTO;
 
 public interface SettlementProfileUseCase {
 
@@ -18,7 +17,7 @@ public interface SettlementProfileUseCase {
 
 	void updateTaxID(String ProfileID, String TaxID);
 
-	List<SettlementProfile> getMySettlementProfiles(String memberUUID);
+	List<SettlementProfileDTO> getMySettlementProfiles(String memberUUID);
 
-	SettlementProfileFullInfoDTO getSettlementProfileFullInfo(String profileUUID);
+	SettlementProfileDTO getSettlementProfileFullInfo(String profileUUID);
 }

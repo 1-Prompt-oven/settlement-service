@@ -7,7 +7,7 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 @Builder
-public class SettlementProfileFullInfoDTO {
+public class SettlementProfileDTO {
 
 	private String memberID;
 	private String settlementProfileID;
