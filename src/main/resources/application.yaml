@@ -63,8 +63,9 @@ spring:
     generate-ddl: true
   cloud:
     config:
-      uri: http://config-server:8888
       fail-fast: false
+      name: settlement-service,eventTopic
+
     kafka:
       text-bootstrap-servers: kafka-1:9092,kafka-2:9092,kafka-3:9092
       consumer:
