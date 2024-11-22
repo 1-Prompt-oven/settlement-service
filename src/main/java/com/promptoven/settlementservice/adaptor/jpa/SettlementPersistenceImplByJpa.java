@@ -9,7 +9,6 @@ import com.promptoven.settlementservice.adaptor.jpa.entity.SettlementProfileEnti
 import com.promptoven.settlementservice.adaptor.jpa.repository.SettlementProfileRepository;
 import com.promptoven.settlementservice.application.port.out.call.SettlementProfilePersistence;
 import com.promptoven.settlementservice.application.service.dto.SettlementProfileDTO;
-import com.promptoven.settlementservice.domain.SettlementProfile;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,12 +21,12 @@ public class SettlementPersistenceImplByJpa implements SettlementProfilePersiste
 	private final SettlementProfileRepository settlementProfileRepository;
 
 	@Override
-	public void create(SettlementProfile settlementProfile) {
+	public void create(SettlementProfileDTO settlementProfile) {
 		settlementProfileRepository.save(JpaSettlementProfileDTOEntityMapper.fromDTO(settlementProfile));
 	}
 
 	@Override
-	public void updateSettlementProfile(SettlementProfile settlementProfile) {
+	public void updateSettlementProfile(SettlementProfileDTO settlementProfile) {
 		SettlementProfileEntity settlementProfileEntity =
 			JpaSettlementProfileDTOEntityMapper.fromDTO(settlementProfile);
 		SettlementProfileEntity oldSettlementProfileEntity = settlementProfileRepository.findBySettlementProfileID(

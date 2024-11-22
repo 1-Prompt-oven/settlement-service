@@ -67,7 +67,7 @@ public class SettlementProfileService implements SettlementProfileUseCase {
 		SettlementProfile createdSettlementProfile = SettlementProfile.createSettlementProfile(
 			settlementProfileModelDTO);
 
-		settlementProfilePersistence.create(createdSettlementProfile);
+		settlementProfilePersistence.create(settlementProfileDomainDTOMapper.toDTO(createdSettlementProfile));
 		if (count.equals(0)) {
 			SettlementFirstCreateEvent settlementFirstCreteEvent = SettlementFirstCreateEvent.builder()
 				.memberUUID(memberID)
@@ -91,7 +91,8 @@ public class SettlementProfileService implements SettlementProfileUseCase {
 			= SettlementProfile.updateAccount(settlementProfileDomainDTOMapper.toDomain(oldSettlementProfileDTO),
 			bankAccountModelDTO);
 
-		settlementProfilePersistence.updateSettlementProfile(updatedSettlementProfile);
+		settlementProfilePersistence.updateSettlementProfile(
+			settlementProfileDomainDTOMapper.toDTO(updatedSettlementProfile));
 	}
 
 	@Override
@@ -106,7 +107,8 @@ public class SettlementProfileService implements SettlementProfileUseCase {
 			= SettlementProfile.updateTaxID(settlementProfileDomainDTOMapper.toDomain(oldSettlementProfileDTO),
 			encryptedTaxID);
 
-		settlementProfilePersistence.updateSettlementProfile(updatedSettlementProfile);
+		settlementProfilePersistence.updateSettlementProfile(
+			settlementProfileDomainDTOMapper.toDTO(updatedSettlementProfile));
 	}
 
 	@Override
@@ -150,7 +152,8 @@ public class SettlementProfileService implements SettlementProfileUseCase {
 			settlementProfileDomainDTOMapper.toDomain(oldSettlementProfileDTO),
 			updatePhoneRequestDTO.getPhone());
 
-		settlementProfilePersistence.updateSettlementProfile(updatedSettlementProfile);
+		settlementProfilePersistence.updateSettlementProfile(
+			settlementProfileDomainDTOMapper.toDTO(updatedSettlementProfile));
 	}
 
 	@Override
@@ -167,7 +170,8 @@ public class SettlementProfileService implements SettlementProfileUseCase {
 			= SettlementProfile.updateAddress(settlementProfileDomainDTOMapper.toDomain(oldSettlementProfileDTO),
 			addressModelDTO);
 
-		settlementProfilePersistence.updateSettlementProfile(updatedSettlementProfile);
+		settlementProfilePersistence.updateSettlementProfile(
+			settlementProfileDomainDTOMapper.toDTO(updatedSettlementProfile));
 	}
 
 }
