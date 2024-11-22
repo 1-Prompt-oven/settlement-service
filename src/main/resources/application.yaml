@@ -65,11 +65,10 @@ spring:
     config:
       fail-fast: false
       name: settlement-service,eventTopic
-
-    kafka:
-      text-bootstrap-servers: kafka-1:9092,kafka-2:9092,kafka-3:9092
-      consumer:
-        group-id: settlement-service
+  kafka:
+    text-bootstrap-servers: kafka-1:9092,kafka-2:9092,kafka-3:9092
+    consumer:
+      group-id: settlement-service
 server:
   port: 8080
   shutdown: graceful
