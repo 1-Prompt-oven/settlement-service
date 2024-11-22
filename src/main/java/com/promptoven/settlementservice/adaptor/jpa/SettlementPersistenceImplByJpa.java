@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import com.promptoven.settlementservice.adaptor.jpa.entity.SettlementProfileEntity;
 import com.promptoven.settlementservice.adaptor.jpa.repository.SettlementProfileRepository;
 import com.promptoven.settlementservice.application.port.out.call.SettlementProfilePersistence;
-import com.promptoven.settlementservice.application.port.out.dto.SettlementProfileDTO;
+import com.promptoven.settlementservice.application.service.dto.SettlementProfileDTO;
 import com.promptoven.settlementservice.domain.SettlementProfile;
 
 import lombok.RequiredArgsConstructor;
@@ -44,10 +44,11 @@ public class SettlementPersistenceImplByJpa implements SettlementProfilePersiste
 	}
 
 	@Override
-	public SettlementProfile getByProfileID(String profileID) {
-		SettlementProfileEntity foundSettlemnetProfileEntity = settlementProfileRepository.findBySettlementProfileID(
+	public SettlementProfileDTO getByProfileID(String profileID) {
+		SettlementProfileEntity foundSettlementProfileEntity = settlementProfileRepository.findBySettlementProfileID(
 			profileID);
-		return null != foundSettlemnetProfileEntity ? foundSettlemnetProfileEntity.toDomain() : null;
+		return null != foundSettlementProfileEntity ?
+			JpaSettlementProfileDTOEntityMapper.toDTO(foundSettlementProfileEntity) : null;
 	}
 
 }

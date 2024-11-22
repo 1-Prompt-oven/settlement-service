@@ -1,7 +1,7 @@
 package com.promptoven.settlementservice.adaptor.jpa;
 
 import com.promptoven.settlementservice.adaptor.jpa.entity.SettlementProfileEntity;
-import com.promptoven.settlementservice.application.port.out.dto.SettlementProfileDTO;
+import com.promptoven.settlementservice.application.service.dto.SettlementProfileDTO;
 
 class JpaSettlementProfileDTOEntityMapper {
 

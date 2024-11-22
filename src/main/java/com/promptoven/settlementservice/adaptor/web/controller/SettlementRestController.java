@@ -13,6 +13,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.promptoven.settlementservice.adaptor.web.controller.mapper.CreateSettlementProfileRequestMapper;
 import com.promptoven.settlementservice.adaptor.web.controller.mapper.SettlementProfileResponseMapper;
+import com.promptoven.settlementservice.adaptor.web.controller.mapper.UpdateAccountRequestMapper;
+import com.promptoven.settlementservice.adaptor.web.controller.mapper.UpdateAddressRequestMapper;
+import com.promptoven.settlementservice.adaptor.web.controller.mapper.UpdatePhoneRequestMapper;
+import com.promptoven.settlementservice.adaptor.web.controller.mapper.UpdateTaxIDRequestMapper;
 import com.promptoven.settlementservice.adaptor.web.controller.vo.in.CreateSettlementProfileRequestVO;
 import com.promptoven.settlementservice.adaptor.web.controller.vo.in.UpdateAccountRequestVO;
 import com.promptoven.settlementservice.adaptor.web.controller.vo.in.UpdateAddressRequestVO;
@@ -42,28 +46,26 @@ public class SettlementRestController {
 
 	@PutMapping("/seller/settlement/profile/account")
 	public void updateAccount(@RequestBody UpdateAccountRequestVO updateAccountRequestVO) {
-		settlementProfileUseCase.updateAccount(updateAccountRequestVO.getProfileID(),
-			updateAccountRequestVO.getAccountID(), updateAccountRequestVO.getBankName());
+		settlementProfileUseCase.updateAccount(UpdateAccountRequestMapper.toDTO(updateAccountRequestVO));
 	}
 
 	@PutMapping("/seller/settlement/profile/address")
 	public void updateAddress(@RequestBody UpdateAddressRequestVO updateAddressRequestVO) {
-		settlementProfileUseCase.updateAddress(updateAddressRequestVO.getProfileID(),
-			updateAddressRequestVO.getPostcode(), updateAddressRequestVO.getAddress());
+		settlementProfileUseCase.updateAddress(UpdateAddressRequestMapper.toDTO(updateAddressRequestVO));
 	}
 
 	@PutMapping("/seller/settlement/profile/phone")
 	public void updatePhone(@RequestBody UpdatePhoneRequestVO updatePhoneRequestVO) {
-		settlementProfileUseCase.updatePhone(updatePhoneRequestVO.getProfileID(), updatePhoneRequestVO.getPhone());
+		settlementProfileUseCase.updatePhone(UpdatePhoneRequestMapper.toDTO(updatePhoneRequestVO));
 	}
 
 	@PutMapping("/seller/settlement/profile/taxID")
 	public void updateTaxID(@RequestBody UpdateTaxIDRequestVO updateTaxIDRequestVO) {
-		settlementProfileUseCase.updateTaxID(updateTaxIDRequestVO.getProfileID(), updateTaxIDRequestVO.getTaxID());
+		settlementProfileUseCase.updateTaxID(UpdateTaxIDRequestMapper.toDTO(updateTaxIDRequestVO));
 	}
 
-	@GetMapping("/seller/settlement/profile")
-	public List<SettlementProfileResponseVO> getMySettlementProfiles(@RequestBody String memberUUID) {
+	@GetMapping("/seller/settlement/profile/list/{memberUUID}")
+	public List<SettlementProfileResponseVO> getMySettlementProfiles(@PathVariable String memberUUID) {
 		return settlementProfileUseCase.getMySettlementProfiles(memberUUID).stream()
 			.map(SettlementProfileResponseMapper::toResponseVO).collect(Collectors.toList());
 	}

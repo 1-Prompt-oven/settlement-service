@@ -3,19 +3,23 @@ package com.promptoven.settlementservice.application.port.in.usecase;
 import java.util.List;
 
 import com.promptoven.settlementservice.application.port.in.dto.CreateSettlementProfileRequestDTO;
-import com.promptoven.settlementservice.application.port.out.dto.SettlementProfileDTO;
+import com.promptoven.settlementservice.application.port.in.dto.UpdateAccountRequestDTO;
+import com.promptoven.settlementservice.application.port.in.dto.UpdateAddressRequestDTO;
+import com.promptoven.settlementservice.application.port.in.dto.UpdatePhoneRequestDTO;
+import com.promptoven.settlementservice.application.port.in.dto.UpdateTaxIDRequestDTO;
+import com.promptoven.settlementservice.application.service.dto.SettlementProfileDTO;
 
 public interface SettlementProfileUseCase {
 
 	void createSettlementProfile(CreateSettlementProfileRequestDTO createSettlementProfileRequestDTO);
 
-	void updateAccount(String ProfileID, String accountID, String bankName);
+	void updateAccount(UpdateAccountRequestDTO updateAccountRequestDTO);
 
-	void updateAddress(String ProfileID, String postcode, String address);
+	void updateAddress(UpdateAddressRequestDTO updateAddressRequestDTO);
 
-	void updatePhone(String ProfileID, String Phone);
+	void updatePhone(UpdatePhoneRequestDTO updatePhoneRequestDTO);
 
-	void updateTaxID(String ProfileID, String TaxID);
+	void updateTaxID(UpdateTaxIDRequestDTO updateTaxIDRequestDTO);
 
 	List<SettlementProfileDTO> getMySettlementProfiles(String memberUUID);
 

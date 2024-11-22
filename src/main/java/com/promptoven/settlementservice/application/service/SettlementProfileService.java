@@ -6,11 +6,16 @@ import java.util.UUID;
 import org.springframework.stereotype.Service;
 
 import com.promptoven.settlementservice.application.port.in.dto.CreateSettlementProfileRequestDTO;
+import com.promptoven.settlementservice.application.port.in.dto.UpdateAccountRequestDTO;
+import com.promptoven.settlementservice.application.port.in.dto.UpdateAddressRequestDTO;
+import com.promptoven.settlementservice.application.port.in.dto.UpdatePhoneRequestDTO;
+import com.promptoven.settlementservice.application.port.in.dto.UpdateTaxIDRequestDTO;
 import com.promptoven.settlementservice.application.port.in.usecase.SettlementProfileUseCase;
 import com.promptoven.settlementservice.application.port.out.call.EventPublisher;
 import com.promptoven.settlementservice.application.port.out.call.SettlementProfilePersistence;
 import com.promptoven.settlementservice.application.port.out.dto.SettlementFirstCreateEvent;
-import com.promptoven.settlementservice.application.port.out.dto.SettlementProfileDTO;
+import com.promptoven.settlementservice.application.service.dto.SettlementProfileDTO;
+import com.promptoven.settlementservice.application.service.dto.SettlementProfileDomainDTOMapper;
 import com.promptoven.settlementservice.application.util.Encrypter;
 import com.promptoven.settlementservice.domain.SettlementProfile;
 import com.promptoven.settlementservice.domain.dto.AddressModelDTO;
@@ -28,6 +33,7 @@ public class SettlementProfileService implements SettlementProfileUseCase {
 	private final SettlementProfilePersistence settlementProfilePersistence;
 	private final Encrypter encrypter;
 	private final EventPublisher eventPublisher;
+	private final SettlementProfileDomainDTOMapper settlementProfileDomainDTOMapper;
 
 	private String encryptTaxID(String rawTaxID) {
 		try {
@@ -71,32 +77,34 @@ public class SettlementProfileService implements SettlementProfileUseCase {
 	}
 
 	@Override
-	public void updateAccount(String profileID, String accountID, String bankName) {
+	public void updateAccount(UpdateAccountRequestDTO updateAccountRequestDTO) {
 
-		SettlementProfile oldSettlementProfile
-			= settlementProfilePersistence.getByProfileID(profileID);
+		SettlementProfileDTO oldSettlementProfileDTO
+			= settlementProfilePersistence.getByProfileID(updateAccountRequestDTO.getProfileID());
 
 		BankAccountModelDTO bankAccountModelDTO = BankAccountModelDTO.builder()
-			.accountID(accountID)
-			.bankName(bankName)
+			.accountID(updateAccountRequestDTO.getAccountID())
+			.bankName(updateAccountRequestDTO.getBankName())
 			.build();
 
 		SettlementProfile updatedSettlementProfile
-			= SettlementProfile.updateAccount(oldSettlementProfile, bankAccountModelDTO);
+			= SettlementProfile.updateAccount(settlementProfileDomainDTOMapper.toDomain(oldSettlementProfileDTO),
+			bankAccountModelDTO);
 
 		settlementProfilePersistence.updateSettlementProfile(updatedSettlementProfile);
 	}
 
 	@Override
-	public void updateTaxID(String profileID, String taxID) {
+	public void updateTaxID(UpdateTaxIDRequestDTO updateTaxIDRequestDTO) {
 
-		SettlementProfile oldSettlementProfile
-			= settlementProfilePersistence.getByProfileID(profileID);
+		SettlementProfileDTO oldSettlementProfileDTO
+			= settlementProfilePersistence.getByProfileID(updateTaxIDRequestDTO.getProfileID());
 
-		String encryptedTaxID = encryptTaxID(taxID);
+		String encryptedTaxID = encryptTaxID(updateTaxIDRequestDTO.getTaxID());
 
 		SettlementProfile updatedSettlementProfile
-			= SettlementProfile.updateTaxID(oldSettlementProfile, encryptedTaxID);
+			= SettlementProfile.updateTaxID(settlementProfileDomainDTOMapper.toDomain(oldSettlementProfileDTO),
+			encryptedTaxID);
 
 		settlementProfilePersistence.updateSettlementProfile(updatedSettlementProfile);
 	}
@@ -108,19 +116,19 @@ public class SettlementProfileService implements SettlementProfileUseCase {
 
 	@Override
 	public SettlementProfileDTO getSettlementProfileFullInfo(String profileUUID) {
-		SettlementProfile targetSettlementProfile
+		SettlementProfileDTO taxIDEncryptedDTO
 			= settlementProfilePersistence.getByProfileID(profileUUID);
-		String decryptedTaxID = DecryptTaxID(targetSettlementProfile.getTaxID());
+		String decryptedTaxID = DecryptTaxID(taxIDEncryptedDTO.getTaxID());
 
 		return SettlementProfileDTO.builder()
-			.memberID(targetSettlementProfile.getMemberID())
+			.memberID(taxIDEncryptedDTO.getMemberID())
 			.settlementProfileID(profileUUID)
 			.taxID(decryptedTaxID)
-			.accountID(targetSettlementProfile.getAccountID())
-			.bankName(targetSettlementProfile.getBankName())
-			.phone(targetSettlementProfile.getPhone())
-			.postcode(targetSettlementProfile.getPostcode())
-			.address(targetSettlementProfile.getAddress())
+			.accountID(taxIDEncryptedDTO.getAccountID())
+			.bankName(taxIDEncryptedDTO.getBankName())
+			.phone(taxIDEncryptedDTO.getPhone())
+			.postcode(taxIDEncryptedDTO.getPostcode())
+			.address(taxIDEncryptedDTO.getAddress())
 			.build();
 	}
 
@@ -133,28 +141,31 @@ public class SettlementProfileService implements SettlementProfileUseCase {
 	}
 
 	@Override
-	public void updatePhone(String profileID, String phone) {
+	public void updatePhone(UpdatePhoneRequestDTO updatePhoneRequestDTO) {
 
-		SettlementProfile oldSettlementProfile
-			= settlementProfilePersistence.getByProfileID(profileID);
+		SettlementProfileDTO oldSettlementProfileDTO
+			= settlementProfilePersistence.getByProfileID(updatePhoneRequestDTO.getProfileID());
 
-		SettlementProfile updatedSettlementProfile = SettlementProfile.updatePhone(oldSettlementProfile, phone);
+		SettlementProfile updatedSettlementProfile = SettlementProfile.updatePhone(
+			settlementProfileDomainDTOMapper.toDomain(oldSettlementProfileDTO),
+			updatePhoneRequestDTO.getPhone());
 
 		settlementProfilePersistence.updateSettlementProfile(updatedSettlementProfile);
 	}
 
 	@Override
-	public void updateAddress(String profileID, String postcode, String address) {
-		SettlementProfile oldSettlementProfile
-			= settlementProfilePersistence.getByProfileID(profileID);
+	public void updateAddress(UpdateAddressRequestDTO updateAddressRequestDTO) {
+		SettlementProfileDTO oldSettlementProfileDTO
+			= settlementProfilePersistence.getByProfileID(updateAddressRequestDTO.getProfileID());
 
 		AddressModelDTO addressModelDTO = AddressModelDTO.builder()
-			.postcode(postcode)
-			.address(address)
+			.postcode(updateAddressRequestDTO.getPostcode())
+			.address(updateAddressRequestDTO.getAddress())
 			.build();
 
 		SettlementProfile updatedSettlementProfile
-			= SettlementProfile.updateAddress(oldSettlementProfile, addressModelDTO);
+			= SettlementProfile.updateAddress(settlementProfileDomainDTOMapper.toDomain(oldSettlementProfileDTO),
+			addressModelDTO);
 
 		settlementProfilePersistence.updateSettlementProfile(updatedSettlementProfile);
 	}
