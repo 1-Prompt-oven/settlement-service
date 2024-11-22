@@ -1,4 +1,4 @@
-package com.promptoven.settlementservice.application.port.out.dto;
+package com.promptoven.settlementservice.application.service.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

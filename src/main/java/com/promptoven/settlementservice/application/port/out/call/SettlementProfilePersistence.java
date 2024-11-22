@@ -2,7 +2,7 @@ package com.promptoven.settlementservice.application.port.out.call;
 
 import java.util.List;
 
-import com.promptoven.settlementservice.application.port.out.dto.SettlementProfileDTO;
+import com.promptoven.settlementservice.application.service.dto.SettlementProfileDTO;
 import com.promptoven.settlementservice.domain.SettlementProfile;
 
 public interface SettlementProfilePersistence {
@@ -13,6 +13,6 @@ public interface SettlementProfilePersistence {
 
 	List<SettlementProfileDTO> getAll(String memberID);
 
-	SettlementProfile getByProfileID(String profileID);
+	SettlementProfileDTO getByProfileID(String profileID);
 
 }

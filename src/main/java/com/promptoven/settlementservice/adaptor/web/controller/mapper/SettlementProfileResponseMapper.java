@@ -2,7 +2,7 @@ package com.promptoven.settlementservice.adaptor.web.controller.mapper;
 
 import com.promptoven.settlementservice.adaptor.web.controller.vo.out.SettlementProfileFullResponseVO;
 import com.promptoven.settlementservice.adaptor.web.controller.vo.out.SettlementProfileResponseVO;
-import com.promptoven.settlementservice.application.port.out.dto.SettlementProfileDTO;
+import com.promptoven.settlementservice.application.service.dto.SettlementProfileDTO;
 
 public class SettlementProfileResponseMapper {
 
