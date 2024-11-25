@@ -3,6 +3,7 @@ package com.promptoven.settlementservice.application.service;
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.promptoven.settlementservice.application.port.in.dto.CreateSettlementProfileRequestDTO;
@@ -34,6 +35,8 @@ public class SettlementProfileService implements SettlementProfileUseCase {
 	private final Encrypter encrypter;
 	private final EventPublisher eventPublisher;
 	private final SettlementProfileDomainDTOMapper settlementProfileDomainDTOMapper;
+	@Value("${settlement-first-create-event}")
+	private String settlementFirstCreateEventTopic;
 
 	private String encryptTaxID(String rawTaxID) {
 		try {
@@ -72,7 +75,7 @@ public class SettlementProfileService implements SettlementProfileUseCase {
 			SettlementFirstCreateEvent settlementFirstCreteEvent = SettlementFirstCreateEvent.builder()
 				.memberUUID(memberID)
 				.build();
-			eventPublisher.publish("${settlement-first-create-event}", settlementFirstCreteEvent);
+			eventPublisher.publish(settlementFirstCreateEventTopic, settlementFirstCreteEvent);
 		}
 	}
 
