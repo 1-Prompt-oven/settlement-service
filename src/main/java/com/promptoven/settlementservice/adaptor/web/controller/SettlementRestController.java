@@ -25,6 +25,7 @@ import com.promptoven.settlementservice.adaptor.web.controller.vo.in.UpdateTaxID
 import com.promptoven.settlementservice.adaptor.web.controller.vo.out.SettlementProfileFullResponseVO;
 import com.promptoven.settlementservice.adaptor.web.controller.vo.out.SettlementProfileResponseVO;
 import com.promptoven.settlementservice.application.port.in.usecase.SettlementProfileUseCase;
+import com.promptoven.settlementservice.adaptor.web.util.BaseResponse;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -38,41 +39,50 @@ public class SettlementRestController {
 	private final SettlementProfileUseCase settlementProfileUseCase;
 
 	@PostMapping("/member/settlement/profile")
-	public void createSettlementProfile(
+	public BaseResponse<Void> createSettlementProfile(
 		@RequestBody CreateSettlementProfileRequestVO createSettlementProfileRequestVO) {
 		settlementProfileUseCase.createSettlementProfile(
 			CreateSettlementProfileRequestMapper.toDTO(createSettlementProfileRequestVO));
+		return new BaseResponse<>();
 	}
 
 	@PutMapping("/seller/settlement/profile/account")
-	public void updateAccount(@RequestBody UpdateAccountRequestVO updateAccountRequestVO) {
+	public BaseResponse<Void> updateAccount(@RequestBody UpdateAccountRequestVO updateAccountRequestVO) {
 		settlementProfileUseCase.updateAccount(UpdateAccountRequestMapper.toDTO(updateAccountRequestVO));
+		return new BaseResponse<>();
 	}
 
 	@PutMapping("/seller/settlement/profile/address")
-	public void updateAddress(@RequestBody UpdateAddressRequestVO updateAddressRequestVO) {
+	public BaseResponse<Void> updateAddress(@RequestBody UpdateAddressRequestVO updateAddressRequestVO) {
 		settlementProfileUseCase.updateAddress(UpdateAddressRequestMapper.toDTO(updateAddressRequestVO));
+		return new BaseResponse<>();
 	}
 
 	@PutMapping("/seller/settlement/profile/phone")
-	public void updatePhone(@RequestBody UpdatePhoneRequestVO updatePhoneRequestVO) {
+	public BaseResponse<Void> updatePhone(@RequestBody UpdatePhoneRequestVO updatePhoneRequestVO) {
 		settlementProfileUseCase.updatePhone(UpdatePhoneRequestMapper.toDTO(updatePhoneRequestVO));
+		return new BaseResponse<>();
 	}
 
 	@PutMapping("/seller/settlement/profile/taxID")
-	public void updateTaxID(@RequestBody UpdateTaxIDRequestVO updateTaxIDRequestVO) {
+	public BaseResponse<Void> updateTaxID(@RequestBody UpdateTaxIDRequestVO updateTaxIDRequestVO) {
 		settlementProfileUseCase.updateTaxID(UpdateTaxIDRequestMapper.toDTO(updateTaxIDRequestVO));
+		return new BaseResponse<>();
 	}
 
 	@GetMapping("/seller/settlement/profile/list/{memberUUID}")
-	public List<SettlementProfileResponseVO> getMySettlementProfiles(@PathVariable String memberUUID) {
-		return settlementProfileUseCase.getMySettlementProfiles(memberUUID).stream()
-			.map(SettlementProfileResponseMapper::toResponseVO).collect(Collectors.toList());
+	public BaseResponse<List<SettlementProfileResponseVO>> getMySettlementProfiles(@PathVariable String memberUUID) {
+		List<SettlementProfileResponseVO> profiles = settlementProfileUseCase.getMySettlementProfiles(memberUUID)
+			.stream()
+			.map(SettlementProfileResponseMapper::toResponseVO)
+			.collect(Collectors.toList());
+		return new BaseResponse<>(profiles);
 	}
 
 	@GetMapping("/seller/settlement/profile/{profileUUID}")
-	public SettlementProfileFullResponseVO getSettlementProfileFullInfo(@PathVariable String profileUUID) {
-		return SettlementProfileResponseMapper.toFullResponseVO(
+	public BaseResponse<SettlementProfileFullResponseVO> getSettlementProfileFullInfo(@PathVariable String profileUUID) {
+		SettlementProfileFullResponseVO profile = SettlementProfileResponseMapper.toFullResponseVO(
 			settlementProfileUseCase.getSettlementProfileFullInfo(profileUUID));
+		return new BaseResponse<>(profile);
 	}
 }
