@@ -26,6 +26,6 @@ public class SettlementAggregateRestController {
 
 	@GetMapping("/seller/settlement/history/{sellerUUID}/{targetDate}")
 	public BaseResponse<SettlementHistoryResponseVO> getHistory() {
-		return new BaseResponse<SettlementHistoryResponseVO>(null);
+		return new BaseResponse<SettlementHistoryResponseVO>(new SettlementHistoryResponseVO(null, null, null, null));
 	}
 }

@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 
+//todo: system driven auto settlement (someday)
 @Builder
 @AllArgsConstructor
 @Getter
