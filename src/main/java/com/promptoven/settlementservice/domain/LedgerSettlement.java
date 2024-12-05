@@ -15,6 +15,6 @@ public class LedgerSettlement {
 	private Long settled;
 	private Long nationalTax;
 	private Long regionalTax;
-	private Long platform
+	private Long platformCharge;
 
 }
