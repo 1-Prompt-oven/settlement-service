@@ -8,6 +8,7 @@ public class SettlementProfileResponseMapper {
 
 	public static SettlementProfileResponseVO toResponseVO(SettlementProfileDTO dto) {
 		return SettlementProfileResponseVO.builder()
+			.memberID(dto.getMemberID())
 			.settlementProfileID(dto.getSettlementProfileID())
 			.phone(dto.getPhone())
 			.accountID(dto.getAccountID())
@@ -19,6 +20,7 @@ public class SettlementProfileResponseMapper {
 
 	public static SettlementProfileFullResponseVO toFullResponseVO(SettlementProfileDTO dto) {
 		return SettlementProfileFullResponseVO.builder()
+			.memberID(dto.getMemberID())
 			.settlementProfileID(dto.getSettlementProfileID())
 			.taxID(dto.getTaxID())
 			.phone(dto.getPhone())
