@@ -16,7 +16,7 @@ import com.promptoven.settlementservice.application.port.out.call.EventPublisher
 import com.promptoven.settlementservice.application.port.out.call.SettlementProfilePersistence;
 import com.promptoven.settlementservice.application.port.out.dto.SettlementFirstCreateEvent;
 import com.promptoven.settlementservice.application.service.dto.SettlementProfileDTO;
-import com.promptoven.settlementservice.application.service.dto.SettlementProfileDomainDTOMapper;
+import com.promptoven.settlementservice.application.service.dto.mapper.SettlementProfileDomainDTOMapper;
 import com.promptoven.settlementservice.application.util.Encrypter;
 import com.promptoven.settlementservice.domain.SettlementProfile;
 import com.promptoven.settlementservice.domain.dto.AddressModelDTO;
