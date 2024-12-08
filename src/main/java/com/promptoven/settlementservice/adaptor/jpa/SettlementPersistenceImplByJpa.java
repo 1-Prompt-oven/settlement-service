@@ -50,6 +50,10 @@ public class SettlementPersistenceImplByJpa implements SettlementProfilePersiste
 			JpaSettlementProfileDTOEntityMapper.toDTO(foundSettlementProfileEntity) : null;
 	}
 
+	@Override
+	public List<String> getSellerUUIDs() {
+		return settlementProfileRepository.findAllSellerUUID();
+	}
 }
 
 class JpaSettlementProfileDTOEntityMapper {

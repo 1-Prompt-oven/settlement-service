@@ -1,12 +1,12 @@
 package com.promptoven.settlementservice.domain;
 
+import java.time.LocalDate;
+
 import com.promptoven.settlementservice.domain.dto.AccountSettlementModelDTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-
-import java.time.LocalDate;
 
 @Builder
 @AllArgsConstructor
@@ -18,7 +18,10 @@ public class AccountSettlementHistory {
 	private Long accumulatedSold;
 	private Long accumulatedEarned;
 	private Long accumulatedSettled;
-	private Long thisYearlyEarned;
+	private Long thisYearlySold;
+	private Long thisYearNationalTax;
+	private Long thisYearLocalTax;
+	private Long thisYearPlatformCharge;
 
 	public static AccountSettlementHistory create(AccountSettlementModelDTO accountSettlementModelDTO) {
 		return AccountSettlementHistory.builder()
@@ -27,7 +30,7 @@ public class AccountSettlementHistory {
 			.accumulatedSold(accountSettlementModelDTO.getAccumulatedSold())
 			.accumulatedEarned(accountSettlementModelDTO.getAccumulatedEarned())
 			.accumulatedSettled(accountSettlementModelDTO.getAccumulatedSettled())
-			.thisYearlyEarned(accountSettlementModelDTO.getThisYearlyEarned())
+			.thisYearlySold(accountSettlementModelDTO.getThisYearlyEarned())
 			.build();
 	}
 }

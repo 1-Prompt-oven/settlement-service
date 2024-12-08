@@ -14,5 +14,8 @@ public class AccountSettlementModelDTO {
 	private final Long accumulatedEarned;
 	private final Long accumulatedSettled;
 	private final Long thisYearlyEarned;
+	private final Long thisYearNationalTax;
+	private final Long thisYearLocalTax;
+	private final Long thisYearPlatformCharge;
 
 }
