@@ -42,7 +42,7 @@ public class SettlementAggregateRestController {
 		@PathVariable String beginDate, @PathVariable String endDate) {
 		try {
 			Pair<LocalDate, LocalDate> range = queryRange(LocalDate.parse(beginDate), LocalDate.parse(endDate));
-			// List<SettlementHistoryResponseVO> responseVOList = settlementAggregateUsecase.getSettlementHistory(
+			// List<SettlementHistoryResponseVO> responseVOList = settlementAggregateUsecase.getAccountHistory(
 			// 	SettlementHistoryRequestMapper.toDTO(sellerUUID, range)).stream().map(
 			// 	SettlementHistoryResponseMapper::toVO).toList();
 			// return new BaseResponse<>(responseVOList);
@@ -58,9 +58,9 @@ public class SettlementAggregateRestController {
 		@PathVariable String endDate) {
 		try {
 			Pair<LocalDate, LocalDate> range = queryRange(LocalDate.parse(beginDate), LocalDate.parse(endDate));
-			// List<SettlementHistoryResponseVO> responseVOList = settlementAggregateUsecase.getSettlementHistory(
+			// List<SettlementHistoryResponseVO> responseVOList = settlementAggregateUsecase.getAdminHistory(
 			// 	SettlementHistoryRequestMapper.toDTO(range)).stream().map(
-			// 	SettlementHistoryResponseMapper::toVO).toList();
+			// 	SettlementHistoryResponseMapper::toAdminVO).toList();
 			// return new BaseResponse<>(responseVOList);
 		} catch (Exception e) {
 			log.error("Error while parsing date", e);

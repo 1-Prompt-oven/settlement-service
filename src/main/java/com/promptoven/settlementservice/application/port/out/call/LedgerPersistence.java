@@ -12,4 +12,6 @@ public interface LedgerPersistence {
 	void record(SoldProductLedgerDTO soldProductLedgerDTO);
 
 	List<SoldProductLedgerDTO> get(Pair<LocalDateTime, LocalDateTime> range, String targetUUID);
+
+	List<SoldProductLedgerDTO> getUnsettled(String targetUUID);
 }

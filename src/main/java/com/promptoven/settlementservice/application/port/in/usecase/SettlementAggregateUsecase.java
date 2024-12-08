@@ -10,5 +10,7 @@ public interface SettlementAggregateUsecase {
 
 	List<AccountSettlementHistoryDTO> getAccountHistory(SettlementHistoryRequestDTO settlementHistoryRequestDTO);
 
+	List<AccountSettlementHistoryDTO> getAdminHistory(SettlementHistoryRequestDTO settlementHistoryRequestDTO);
+
 	void appendLedger(LedgerAppendRequestDTO ledgerAppendRequestDTO);
 }
