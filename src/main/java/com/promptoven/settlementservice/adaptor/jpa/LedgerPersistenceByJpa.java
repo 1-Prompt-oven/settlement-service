@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Service;
 
+import com.promptoven.settlementservice.adaptor.jpa.entity.SoldProductLedgerEntity;
 import com.promptoven.settlementservice.adaptor.jpa.repository.SoldProductLedgerRepository;
 import com.promptoven.settlementservice.application.port.out.call.LedgerPersistence;
 import com.promptoven.settlementservice.application.service.dto.SoldProductLedgerDTO;
@@ -33,5 +34,27 @@ public class LedgerPersistenceByJpa implements LedgerPersistence {
 	@Override
 	public List<SoldProductLedgerDTO> getUnsettled(String targetUUID) {
 		return List.of();
+	}
+}
+
+class DtoEntityMapper {
+	public static SoldProductLedgerDTO toDTO(SoldProductLedgerEntity soldProductLedgerEntity) {
+		return SoldProductLedgerDTO.builder()
+			.sellerUUID(soldProductLedgerEntity.getSellerUUID())
+			.productName(soldProductLedgerEntity.getProductName())
+			.price(soldProductLedgerEntity.getPrice())
+			.soldAt(soldProductLedgerEntity.getSoldAt())
+			.settled(soldProductLedgerEntity.isSettled())
+			.build();
+	}
+
+	public static SoldProductLedgerEntity toEntity(SoldProductLedgerDTO soldProductLedgerDTO) {
+		return SoldProductLedgerEntity.builder()
+			.sellerUUID(soldProductLedgerDTO.getSellerUUID())
+			.productName(soldProductLedgerDTO.getProductName())
+			.price(soldProductLedgerDTO.getPrice())
+			.soldAt(soldProductLedgerDTO.getSoldAt())
+			.settled(soldProductLedgerDTO.isSettled())
+			.build();
 	}
 }

@@ -6,6 +6,8 @@ import java.util.List;
 import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Service;
 
+import com.promptoven.settlementservice.adaptor.jpa.entity.AccountSettlementHistoryEntity;
+import com.promptoven.settlementservice.adaptor.jpa.entity.PlatformSettlementHistoryEntity;
 import com.promptoven.settlementservice.adaptor.jpa.repository.AccountSettlementHistoryRepository;
 import com.promptoven.settlementservice.adaptor.jpa.repository.PlatformSettlementHistoryRepository;
 import com.promptoven.settlementservice.application.port.out.call.AccountSettlementHistoryPersistence;
@@ -46,5 +48,50 @@ public class AccountSettlementHistoryPersistenceByJpa implements AccountSettleme
 	@Override
 	public void saveAdminReport(List<PlatformSettlementHistoryDTO> platformSettlementHistoryDTOS) {
 
+	}
+}
+
+class AccountHistoryDtoEntityMapper {
+	public static AccountSettlementHistoryDTO toDTO(AccountSettlementHistoryEntity accountSettlementHistoryEntity) {
+		return AccountSettlementHistoryDTO.builder()
+			.recordedAt(accountSettlementHistoryEntity.getRecordedAt())
+			.sellerUUID(accountSettlementHistoryEntity.getSellerUUID())
+			.accumulatedEarned(accountSettlementHistoryEntity.getAccumulatedEarned())
+			.accumulatedSettled(accountSettlementHistoryEntity.getAccumulatedSettled())
+			.thisYearlyEarned(accountSettlementHistoryEntity.getThisYearlyEarned())
+			.build();
+	}
+
+	public static AccountSettlementHistoryEntity toEntity(AccountSettlementHistoryDTO accountSettlementHistoryDTO) {
+		return AccountSettlementHistoryEntity.builder()
+			.recordedAt(accountSettlementHistoryDTO.getRecordedAt())
+			.sellerUUID(accountSettlementHistoryDTO.getSellerUUID())
+			.accumulatedEarned(accountSettlementHistoryDTO.getAccumulatedEarned())
+			.accumulatedSettled(accountSettlementHistoryDTO.getAccumulatedSettled())
+			.thisYearlyEarned(accountSettlementHistoryDTO.getThisYearlyEarned())
+			.build();
+	}
+}
+
+class PlatformHistoryDtoEntityMapper {
+	public static PlatformSettlementHistoryDTO toDTO(PlatformSettlementHistoryEntity platformSettlementHistoryEntity) {
+		return PlatformSettlementHistoryDTO.builder()
+			.recordedAt(platformSettlementHistoryEntity.getRecordedAt())
+			.accumulatedSold(platformSettlementHistoryEntity.getAccumulatedSold())
+			.accumulatedEarned(platformSettlementHistoryEntity.getAccumulatedEarned())
+			.accumulatedSettledForSellerTax(platformSettlementHistoryEntity.getAccumulatedSettledForSellerTax())
+			.accumulatedSettledForAdminTax(platformSettlementHistoryEntity.getAccumulatedSettledForAdminTax())
+			.build();
+
+	}
+
+	public static PlatformSettlementHistoryEntity toEntity(PlatformSettlementHistoryDTO platformSettlementHistoryDTO) {
+		return PlatformSettlementHistoryEntity.builder()
+			.recordedAt(platformSettlementHistoryDTO.getRecordedAt())
+			.accumulatedSold(platformSettlementHistoryDTO.getAccumulatedSold())
+			.accumulatedEarned(platformSettlementHistoryDTO.getAccumulatedEarned())
+			.accumulatedSettledForSellerTax(platformSettlementHistoryDTO.getAccumulatedSettledForSellerTax())
+			.accumulatedSettledForAdminTax(platformSettlementHistoryDTO.getAccumulatedSettledForAdminTax())
+			.build();
 	}
 }
