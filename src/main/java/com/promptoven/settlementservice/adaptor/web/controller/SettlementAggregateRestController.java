@@ -30,8 +30,10 @@ public class SettlementAggregateRestController {
 	private final SettlementAggregateUsecase settlementAggregateUsecase;
 
 	@PostMapping("/settlement/ledger")
-	public BaseResponse<Void> receiveLedger(@RequestBody LedgerAppendRequestVO ledgerAppendRequestVO) {
-		settlementAggregateUsecase.appendLedger(LedgerAppendRequestMapper.toDTO(ledgerAppendRequestVO));
+	public BaseResponse<Void> receiveLedger(@RequestBody List<LedgerAppendRequestVO> ledgerAppendRequestVOList) {
+		ledgerAppendRequestVOList.forEach(ledgerAppendRequestVO ->
+			settlementAggregateUsecase.appendLedger(LedgerAppendRequestMapper.toDTO(ledgerAppendRequestVO))
+		);
 		return new BaseResponse<>();
 	}
 
