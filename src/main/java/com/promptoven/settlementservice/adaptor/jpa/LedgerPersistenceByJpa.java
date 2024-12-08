@@ -1,6 +1,6 @@
 package com.promptoven.settlementservice.adaptor.jpa;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.data.util.Pair;
@@ -23,17 +23,23 @@ public class LedgerPersistenceByJpa implements LedgerPersistence {
 
 	@Override
 	public void record(SoldProductLedgerDTO soldProductLedgerDTO) {
-
+		soldProductLedgerRepository.save(DtoEntityMapper.toEntity(soldProductLedgerDTO));
 	}
 
 	@Override
-	public List<SoldProductLedgerDTO> get(Pair<LocalDateTime, LocalDateTime> range, String targetUUID) {
-		return List.of();
+	public List<SoldProductLedgerDTO> get(Pair<LocalDate, LocalDate> range, String targetUUID) {
+		LocalDate beginDate = range.getFirst();
+		LocalDate endDate = range.getSecond();
+		return soldProductLedgerRepository.findBySellerUUIDAndSoldAtIsBetween(targetUUID, beginDate, endDate).stream()
+			.map(DtoEntityMapper::toDTO)
+			.toList();
 	}
 
 	@Override
 	public List<SoldProductLedgerDTO> getUnsettled(String targetUUID) {
-		return List.of();
+		return soldProductLedgerRepository.findBySellerUUIDAndSettled(targetUUID, false).stream()
+			.map(DtoEntityMapper::toDTO)
+			.toList();
 	}
 }
 

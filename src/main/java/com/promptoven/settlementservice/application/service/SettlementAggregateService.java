@@ -33,6 +33,11 @@ public class SettlementAggregateService implements SettlementAggregateUsecase {
 	}
 
 	@Override
+	public List<AccountSettlementHistoryDTO> getAdminHistory(SettlementHistoryRequestDTO settlementHistoryRequestDTO) {
+		return List.of();
+	}
+
+	@Override
 	public void appendLedger(LedgerAppendRequestDTO ledgerAppendRequestDTO) {
 
 		LedgerProductSellingModelDTO ledgerProductSellingModelDTO =

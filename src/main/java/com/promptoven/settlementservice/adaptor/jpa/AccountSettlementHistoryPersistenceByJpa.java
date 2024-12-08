@@ -27,27 +27,44 @@ public class AccountSettlementHistoryPersistenceByJpa implements AccountSettleme
 
 	@Override
 	public void save(AccountSettlementHistoryDTO accountSettlementHistoryDTO) {
-
+		accountSettlementHistoryRepository.save(AccountHistoryDtoEntityMapper.toEntity(accountSettlementHistoryDTO));
 	}
 
 	@Override
 	public List<AccountSettlementHistoryDTO> get(String accountUUID, Pair<LocalDate, LocalDate> range) {
-		return List.of();
+		LocalDate beginDate = range.getFirst();
+		LocalDate endDate = range.getSecond();
+		return accountSettlementHistoryRepository.findBySellerUUIDAndRecordedAtBetween(accountUUID, beginDate, endDate)
+			.stream()
+			.map(AccountHistoryDtoEntityMapper::toDTO)
+			.toList();
 	}
 
 	@Override
 	public List<AccountSettlementHistoryDTO> extractSourceForAdminReport(LocalDate targetDate) {
-		return List.of();
+		return accountSettlementHistoryRepository.findByRecordedAt(targetDate).stream()
+			.map(AccountHistoryDtoEntityMapper::toDTO)
+			.toList();
 	}
 
 	@Override
 	public List<PlatformSettlementHistoryDTO> prepareAdminReport(Pair<LocalDate, LocalDate> range) {
-		return List.of();
+		LocalDate beginDate = range.getFirst();
+		LocalDate endDate = range.getSecond();
+
+		List<PlatformSettlementHistoryEntity> platformSettlementHistoryEntities =
+			platformSettlementHistoryRepository.findByRecordedAtBetween(beginDate, endDate);
+		return platformSettlementHistoryEntities.stream()
+			.map(PlatformHistoryDtoEntityMapper::toDTO)
+			.toList();
 	}
 
 	@Override
 	public void saveAdminReport(List<PlatformSettlementHistoryDTO> platformSettlementHistoryDTOS) {
-
+		platformSettlementHistoryDTOS.forEach(platformSettlementHistoryDTO -> {
+			platformSettlementHistoryRepository.save(
+				PlatformHistoryDtoEntityMapper.toEntity(platformSettlementHistoryDTO));
+		});
 	}
 }
 
