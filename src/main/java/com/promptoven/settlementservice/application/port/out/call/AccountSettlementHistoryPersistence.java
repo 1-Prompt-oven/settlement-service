@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.data.util.Pair;
 
 import com.promptoven.settlementservice.application.service.dto.AccountSettlementHistoryDTO;
+import com.promptoven.settlementservice.application.service.dto.PlatformSettlementHistoryDTO;
 
 public interface AccountSettlementHistoryPersistence {
 
@@ -13,9 +14,9 @@ public interface AccountSettlementHistoryPersistence {
 
 	List<AccountSettlementHistoryDTO> get(String accountUUID, Pair<LocalDate, LocalDate> range);
 
-	List<AccountSettlementHistoryDTO> prepareAdminReport(LocalDate targetDate);
+	List<AccountSettlementHistoryDTO> extractSourceForAdminReport(LocalDate targetDate);
 
-	List<AccountSettlementHistoryDTO> prepareAdminReport(Pair<LocalDate, LocalDate> range);
+	List<PlatformSettlementHistoryDTO> prepareAdminReport(Pair<LocalDate, LocalDate> range);
 
-	void saveAdminReport(List<AccountSettlementHistoryDTO> accountSettlementHistoryDTOs);
+	void saveAdminReport(List<PlatformSettlementHistoryDTO> platformSettlementHistoryDTOS);
 }

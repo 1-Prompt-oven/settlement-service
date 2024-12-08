@@ -11,7 +11,7 @@ import lombok.Getter;
 @Getter
 public class PlatformSettlementHistoryDTO {
 
-	private final LocalDate targetDate;
+	private final LocalDate recordedAt;
 	private final Long accumulatedSold;
 	private final Long accumulatedEarned;
 	private final Long accumulatedSettledForSellerTax;

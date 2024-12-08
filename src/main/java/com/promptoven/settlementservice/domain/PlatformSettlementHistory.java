@@ -13,7 +13,7 @@ import lombok.Getter;
 @Builder
 public class PlatformSettlementHistory {
 
-	private final LocalDate targetDate;
+	private final LocalDate recordedAt;
 	private final Long accumulatedSold;
 	private final Long accumulatedEarned;
 	private final Long accumulatedSettledForSellerTax;
@@ -22,7 +22,7 @@ public class PlatformSettlementHistory {
 	public static PlatformSettlementHistory create(
 		PlatformSettlementHistoryModelDTO platformSettlementHistoryModelDTO) {
 		return PlatformSettlementHistory.builder()
-			.targetDate(LocalDate.now())
+			.recordedAt(LocalDate.now())
 			.accumulatedSold(platformSettlementHistoryModelDTO.getAccumulatedSold())
 			.accumulatedEarned(platformSettlementHistoryModelDTO.getAccumulatedEarned())
 			.accumulatedSettledForSellerTax(platformSettlementHistoryModelDTO.getAccumulatedSettledForSellerTax())
