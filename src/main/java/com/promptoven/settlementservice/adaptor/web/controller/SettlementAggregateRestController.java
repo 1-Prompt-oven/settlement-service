@@ -12,7 +12,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.promptoven.settlementservice.adaptor.web.controller.mapper.LedgerAppendRequestMapper;
+import com.promptoven.settlementservice.adaptor.web.controller.mapper.SettlementHistoryRequestMapper;
+import com.promptoven.settlementservice.adaptor.web.controller.mapper.SettlementHistoryResponseMapper;
 import com.promptoven.settlementservice.adaptor.web.controller.vo.in.LedgerAppendRequestVO;
+import com.promptoven.settlementservice.adaptor.web.controller.vo.out.AdminSettlementHistoryResponseVO;
 import com.promptoven.settlementservice.adaptor.web.controller.vo.out.SettlementHistoryResponseVO;
 import com.promptoven.settlementservice.adaptor.web.util.BaseResponse;
 import com.promptoven.settlementservice.adaptor.web.util.BaseResponseStatus;
@@ -42,31 +45,29 @@ public class SettlementAggregateRestController {
 		@PathVariable String beginDate, @PathVariable String endDate) {
 		try {
 			Pair<LocalDate, LocalDate> range = queryRange(LocalDate.parse(beginDate), LocalDate.parse(endDate));
-			// List<SettlementHistoryResponseVO> responseVOList = settlementAggregateUsecase.getAccountHistory(
-			// 	SettlementHistoryRequestMapper.toDTO(sellerUUID, range)).stream().map(
-			// 	SettlementHistoryResponseMapper::toVO).toList();
-			// return new BaseResponse<>(responseVOList);
+			List<SettlementHistoryResponseVO> responseVOList = settlementAggregateUsecase.getAccountHistory(
+				SettlementHistoryRequestMapper.toDTO(sellerUUID, range)).stream().map(
+				SettlementHistoryResponseMapper::toVO).toList();
+			return new BaseResponse<>(responseVOList);
 		} catch (Exception e) {
 			log.error("Error while parsing date", e);
 			return new BaseResponse<>(BaseResponseStatus.BAD_REQUEST);
 		}
-		return new BaseResponse<>(List.of());
 	}
 
 	@GetMapping("/admin/settlement/history/{beginDate}/{endDate}")
-	public BaseResponse<List<SettlementHistoryResponseVO>> getHistory(@PathVariable String beginDate,
+	public BaseResponse<List<AdminSettlementHistoryResponseVO>> getHistory(@PathVariable String beginDate,
 		@PathVariable String endDate) {
 		try {
 			Pair<LocalDate, LocalDate> range = queryRange(LocalDate.parse(beginDate), LocalDate.parse(endDate));
-			// List<SettlementHistoryResponseVO> responseVOList = settlementAggregateUsecase.getAdminHistory(
-			// 	SettlementHistoryRequestMapper.toDTO(range)).stream().map(
-			// 	SettlementHistoryResponseMapper::toAdminVO).toList();
-			// return new BaseResponse<>(responseVOList);
+			List<AdminSettlementHistoryResponseVO> responseVOList = settlementAggregateUsecase.getAdminHistory(
+				SettlementHistoryRequestMapper.toDTO("admin", range)).stream().map(
+				SettlementHistoryResponseMapper::toAdminVO).toList();
+			return new BaseResponse<>(responseVOList);
 		} catch (Exception e) {
 			log.error("Error while parsing date", e);
 			return new BaseResponse<>(BaseResponseStatus.BAD_REQUEST);
 		}
-		return new BaseResponse<>(List.of());
 	}
 
 	Pair<LocalDate, LocalDate> queryRange(LocalDate begin, LocalDate end) {

@@ -10,6 +10,7 @@ import com.promptoven.settlementservice.application.port.in.usecase.SettlementAg
 import com.promptoven.settlementservice.application.port.out.call.AccountSettlementHistoryPersistence;
 import com.promptoven.settlementservice.application.port.out.call.LedgerPersistence;
 import com.promptoven.settlementservice.application.service.dto.AccountSettlementHistoryDTO;
+import com.promptoven.settlementservice.application.service.dto.PlatformSettlementHistoryDTO;
 import com.promptoven.settlementservice.application.service.dto.mapper.SoldProductLedgerDomainDTOMapper;
 import com.promptoven.settlementservice.domain.LedgerProductSelling;
 import com.promptoven.settlementservice.domain.dto.LedgerProductSellingModelDTO;
@@ -33,7 +34,7 @@ public class SettlementAggregateService implements SettlementAggregateUsecase {
 	}
 
 	@Override
-	public List<AccountSettlementHistoryDTO> getAdminHistory(SettlementHistoryRequestDTO settlementHistoryRequestDTO) {
+	public List<PlatformSettlementHistoryDTO> getAdminHistory(SettlementHistoryRequestDTO settlementHistoryRequestDTO) {
 		return List.of();
 	}
 
