@@ -1,7 +1,9 @@
 package com.promptoven.settlementservice.application.service;
 
+import java.time.LocalDate;
 import java.util.List;
 
+import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Service;
 
 import com.promptoven.settlementservice.application.port.in.dto.LedgerAppendRequestDTO;
@@ -30,12 +32,16 @@ public class SettlementAggregateService implements SettlementAggregateUsecase {
 	@Override
 	public List<AccountSettlementHistoryDTO> getAccountHistory(
 		SettlementHistoryRequestDTO settlementHistoryRequestDTO) {
-		return List.of();
+		Pair<LocalDate, LocalDate> range = Pair.of(settlementHistoryRequestDTO.getBeginDate(),
+			settlementHistoryRequestDTO.getEndDate());
+		return accountSettlementHistoryPersistence.get(settlementHistoryRequestDTO.getSellerUUID(), range);
 	}
 
 	@Override
 	public List<PlatformSettlementHistoryDTO> getAdminHistory(SettlementHistoryRequestDTO settlementHistoryRequestDTO) {
-		return List.of();
+		Pair<LocalDate, LocalDate> range = Pair.of(settlementHistoryRequestDTO.getBeginDate(),
+			settlementHistoryRequestDTO.getEndDate());
+		return accountSettlementHistoryPersistence.prepareAdminReport(range);
 	}
 
 	@Override
