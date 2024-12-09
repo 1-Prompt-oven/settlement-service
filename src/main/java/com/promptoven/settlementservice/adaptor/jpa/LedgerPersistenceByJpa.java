@@ -77,6 +77,7 @@ class DtoEntityMapper {
 			.productName(soldProductLedgerEntity.getProductName())
 			.price(soldProductLedgerEntity.getPrice())
 			.soldAt(soldProductLedgerEntity.getSoldAt())
+			.orderID(soldProductLedgerEntity.getOrderID())
 			.settled(soldProductLedgerEntity.isSettled())
 			.build();
 	}
@@ -87,6 +88,7 @@ class DtoEntityMapper {
 			.productName(soldProductLedgerDTO.getProductName())
 			.price(soldProductLedgerDTO.getPrice())
 			.soldAt(soldProductLedgerDTO.getSoldAt())
+			.orderID(soldProductLedgerDTO.getOrderID())
 			.settled(soldProductLedgerDTO.isSettled())
 			.suspended(false)
 			.build();
@@ -98,6 +100,7 @@ class DtoEntityMapper {
 			.productName(soldProductLedgerDTO.getProductName())
 			.price(soldProductLedgerDTO.getPrice())
 			.soldAt(soldProductLedgerDTO.getSoldAt())
+			.orderID(soldProductLedgerDTO.getOrderID())
 			.settled(soldProductLedgerDTO.isSettled())
 			.suspended(true)
 			.build();

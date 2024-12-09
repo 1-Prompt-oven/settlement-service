@@ -11,6 +11,7 @@ public class LedgerAppendRequestMapper {
 			.productName(ledgerAppendRequestVO.getProductName())
 			.price(ledgerAppendRequestVO.getPrice())
 			.soldAt(ledgerAppendRequestVO.getSoldAt())
+			.orderID(ledgerAppendRequestVO.getOrderID())
 			.build();
 	}
 }

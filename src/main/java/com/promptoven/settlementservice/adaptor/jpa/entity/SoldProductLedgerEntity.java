@@ -30,4 +30,5 @@ public class SoldProductLedgerEntity {
 	private LocalDateTime soldAt;
 	private boolean settled;
 	private boolean suspended;
+	private String orderID;
 }

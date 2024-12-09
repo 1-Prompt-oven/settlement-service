@@ -15,4 +15,5 @@ public class LedgerAppendRequestDTO {
 	private final String productName;
 	private final Long price;
 	private final LocalDateTime soldAt;
+	private final String orderID;
 }

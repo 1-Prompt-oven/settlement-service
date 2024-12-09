@@ -14,4 +14,5 @@ public class LedgerAppendRequestVO {
 	private String productName;
 	private Long price;
 	private LocalDateTime soldAt;
+	private String orderID;
 }

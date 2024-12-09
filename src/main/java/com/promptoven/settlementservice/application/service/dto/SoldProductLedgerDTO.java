@@ -16,4 +16,5 @@ public class SoldProductLedgerDTO {
 	private final Long price;
 	private final LocalDateTime soldAt;
 	private final boolean settled;
+	private final String orderID;
 }

@@ -17,6 +17,7 @@ public class LedgerProductSelling {
 	private Long price;
 	private LocalDateTime soldAt;
 	private boolean settled;
+	private String orderID;
 
 	public static LedgerProductSelling log(LedgerProductSellingModelDTO ledgerProductSellingModelDTO) {
 		return LedgerProductSelling.builder()
@@ -24,6 +25,7 @@ public class LedgerProductSelling {
 			.productName(ledgerProductSellingModelDTO.getProductName())
 			.price(ledgerProductSellingModelDTO.getPrice())
 			.soldAt(ledgerProductSellingModelDTO.getSoldAt())
+			.orderID(ledgerProductSellingModelDTO.getOrderID())
 			.settled(false)
 			.build();
 	}
@@ -34,6 +36,7 @@ public class LedgerProductSelling {
 			.productName(ledgerProductSelling.getProductName())
 			.price(ledgerProductSelling.getPrice())
 			.soldAt(ledgerProductSelling.getSoldAt())
+			.orderID(ledgerProductSelling.getOrderID())
 			.settled(true)
 			.build();
 	}
