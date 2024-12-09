@@ -69,6 +69,46 @@ public class SettlementAggregateService implements SettlementAggregateUsecase {
 				LedgerProductSelling.log(ledgerProductSellingModelDTO)));
 	}
 
+	@Override
+	public void appendSuspendedUserLedger(LedgerAppendRequestDTO ledgerAppendRequestDTO) {
+		LedgerProductSellingModelDTO ledgerProductSellingModelDTO =
+			convertLedgerAppendRequestDTOToLedgerProductSellingModelDTO(ledgerAppendRequestDTO);
+
+		ledgerPersistence.recordSuspend(
+			soldProductLedgerDomainDTOMapper.toDTO(
+				LedgerProductSelling.log(ledgerProductSellingModelDTO)));
+	}
+
+	@Override
+	public void appendPlatformLedger(LedgerAppendRequestDTO ledgerAppendRequestDTO) {
+		LedgerProductSellingModelDTO ledgerProductSellingModelDTO =
+			convertLedgerAppendRequestDTOToLedgerProductSellingModelDTO(ledgerAppendRequestDTO);
+
+		ledgerPersistence.record(
+			soldProductLedgerDomainDTOMapper.toDTO(
+				LedgerProductSelling.log(ledgerProductSellingModelDTO)));
+	}
+
+	@Override
+	public void appendSuspendedPlatformLedger(LedgerAppendRequestDTO ledgerAppendRequestDTO) {
+		LedgerProductSellingModelDTO ledgerProductSellingModelDTO =
+			convertLedgerAppendRequestDTOToLedgerProductSellingModelDTO(ledgerAppendRequestDTO);
+
+		ledgerPersistence.recordSuspend(
+			soldProductLedgerDomainDTOMapper.toDTO(
+				LedgerProductSelling.log(ledgerProductSellingModelDTO)));
+	}
+
+	@Override
+	public void unSuspend(LedgerAppendRequestDTO ledgerAppendRequestDTO) {
+		LedgerProductSellingModelDTO ledgerProductSellingModelDTO =
+			convertLedgerAppendRequestDTOToLedgerProductSellingModelDTO(ledgerAppendRequestDTO);
+
+		ledgerPersistence.markUnSuspend(
+			soldProductLedgerDomainDTOMapper.toDTO(
+				LedgerProductSelling.log(ledgerProductSellingModelDTO)));
+	}
+
 	private LedgerProductSellingModelDTO convertLedgerAppendRequestDTOToLedgerProductSellingModelDTO(
 		LedgerAppendRequestDTO ledgerAppendRequestDTO) {
 		return LedgerProductSellingModelDTO.builder()
@@ -108,6 +148,8 @@ public class SettlementAggregateService implements SettlementAggregateUsecase {
 				accumulatedPlatformCharge += sellerSettlement.getThisYearPlatformCharge();
 			}
 		}
+
+		accumulatedPlatformCharge += platformSalesTrace();
 
 		long accumulatedTaxOfPlatform = calculatePlatformTax(accumulatedPlatformCharge);
 
@@ -280,5 +322,24 @@ public class SettlementAggregateService implements SettlementAggregateUsecase {
 			.thisYearNationalTax(0L)
 			.thisYearPlatformCharge(0L)
 			.build();
+	}
+
+	private long platformSalesTrace() {
+		long accumulation = 0L;
+
+		List<SoldProductLedgerDTO> unsettledLedgers = ledgerPersistence.getUnsettled("admin");
+
+		if (unsettledLedgers.isEmpty()) {
+			return accumulation;
+		}
+
+		accumulation = calculateTotalSales(unsettledLedgers);
+
+		// Mark ledgers as settled
+		unsettledLedgers.stream().map(soldProductLedgerDomainDTOMapper::toDomain)
+			.map(LedgerProductSelling::settle)
+			.map(soldProductLedgerDomainDTOMapper::toDTO)
+			.forEach(ledgerPersistence::markSettle);
+		return accumulation;
 	}
 }

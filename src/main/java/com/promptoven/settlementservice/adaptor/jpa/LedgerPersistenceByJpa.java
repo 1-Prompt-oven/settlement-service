@@ -28,6 +28,11 @@ public class LedgerPersistenceByJpa implements LedgerPersistence {
 	}
 
 	@Override
+	public void recordSuspend(SoldProductLedgerDTO soldProductLedgerDTO) {
+		soldProductLedgerRepository.save(DtoEntityMapper.toSuspendedEntity(soldProductLedgerDTO));
+	}
+
+	@Override
 	public List<SoldProductLedgerDTO> get(Pair<LocalDate, LocalDate> range, String targetUUID) {
 		LocalDate beginDate = range.getFirst();
 		LocalDate endDate = range.getSecond();
@@ -53,6 +58,16 @@ public class LedgerPersistenceByJpa implements LedgerPersistence {
 		soldProductLedgerRepository.settle(sellerUUID, productName, price, soldAt);
 	}
 
+	@Override
+	public void markUnSuspend(SoldProductLedgerDTO soldProductLedgerDTO) {
+		SoldProductLedgerEntity soldProductLedgerEntity = DtoEntityMapper.toEntity(soldProductLedgerDTO);
+		String sellerUUID = soldProductLedgerEntity.getSellerUUID();
+		String productName = soldProductLedgerEntity.getProductName();
+		Long price = soldProductLedgerEntity.getPrice();
+		LocalDateTime soldAt = soldProductLedgerEntity.getSoldAt();
+		soldProductLedgerRepository.unsuspend(sellerUUID, productName, price, soldAt);
+	}
+
 }
 
 class DtoEntityMapper {
@@ -73,6 +88,18 @@ class DtoEntityMapper {
 			.price(soldProductLedgerDTO.getPrice())
 			.soldAt(soldProductLedgerDTO.getSoldAt())
 			.settled(soldProductLedgerDTO.isSettled())
+			.suspended(false)
+			.build();
+	}
+
+	public static SoldProductLedgerEntity toSuspendedEntity(SoldProductLedgerDTO soldProductLedgerDTO) {
+		return SoldProductLedgerEntity.builder()
+			.sellerUUID(soldProductLedgerDTO.getSellerUUID())
+			.productName(soldProductLedgerDTO.getProductName())
+			.price(soldProductLedgerDTO.getPrice())
+			.soldAt(soldProductLedgerDTO.getSoldAt())
+			.settled(soldProductLedgerDTO.isSettled())
+			.suspended(true)
 			.build();
 	}
 }
