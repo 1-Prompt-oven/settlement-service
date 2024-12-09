@@ -7,6 +7,7 @@ import java.util.Locale;
 import java.util.Properties;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.mail.MailSendException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
@@ -24,10 +25,13 @@ import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import lombok.Setter;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
+@ConfigurationProperties(prefix = "mailing")
+@Setter
 public class MailSendingImplWithSpringMail implements MailSending {
 
 	private static final String HOST = "smtp.gmail.com";
@@ -41,13 +45,12 @@ public class MailSendingImplWithSpringMail implements MailSending {
 	@Value("${spring.mail.password}")
 	private String password;
 
-	@Value("${mailing.admin-and-investor}")
-	private List<String> receiver;
+	private List<String> adminAndInvestor;
 
 	@PostConstruct
 	private void printInfo() {
-		System.out.println(receiver);
-		System.out.println(Arrays.toString(receiver.toArray(new String[0])));
+		System.out.println(adminAndInvestor);
+		System.out.println(Arrays.toString(adminAndInvestor.toArray(new String[0])));
 	}
 
 	private JavaMailSender getJavaMailSender() {
@@ -81,7 +84,7 @@ public class MailSendingImplWithSpringMail implements MailSending {
 			MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
 			helper.setFrom(new InternetAddress(username, "PromptOven", "UTF-8"));
 			
-			InternetAddress[] addresses = receiver.stream()
+			InternetAddress[] addresses = adminAndInvestor.stream()
 				.map(email -> {
 					try {
 						return new InternetAddress(email);
