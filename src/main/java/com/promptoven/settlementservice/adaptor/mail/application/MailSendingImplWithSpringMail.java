@@ -41,7 +41,7 @@ public class MailSendingImplWithSpringMail implements MailSending {
 	@Value("${spring.mail.password}")
 	private String password;
 
-	@Value("#{'${mailing.admin-and-investor}'.split(',')}")
+	@Value("${mailing.admin-and-investor}")
 	private List<String> receiver;
 
 	@PostConstruct
