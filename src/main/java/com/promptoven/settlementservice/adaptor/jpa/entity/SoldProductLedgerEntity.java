@@ -15,7 +15,9 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Table(indexes = {
-	@Index(name = "idx_sellerUUID", columnList = "sellerUUID")})
+	@Index(name = "idx_sellerUUID", columnList = "sellerUUID"),
+	@Index(name = "idx_orderID", columnList = "orderID")
+})
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor

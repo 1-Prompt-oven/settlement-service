@@ -54,8 +54,8 @@ public class LedgerPersistenceByJpa implements LedgerPersistence {
 		String sellerUUID = soldProductLedgerEntity.getSellerUUID();
 		String productName = soldProductLedgerEntity.getProductName();
 		Long price = soldProductLedgerEntity.getPrice();
-		LocalDateTime soldAt = soldProductLedgerEntity.getSoldAt();
-		soldProductLedgerRepository.settle(sellerUUID, productName, price, soldAt);
+		String orderID = soldProductLedgerEntity.getOrderID();
+		soldProductLedgerRepository.settle(sellerUUID, productName, price, orderID);
 	}
 
 	@Override
@@ -65,7 +65,8 @@ public class LedgerPersistenceByJpa implements LedgerPersistence {
 		String productName = soldProductLedgerEntity.getProductName();
 		Long price = soldProductLedgerEntity.getPrice();
 		LocalDateTime soldAt = soldProductLedgerEntity.getSoldAt();
-		soldProductLedgerRepository.unsuspend(sellerUUID, productName, price, soldAt);
+		String orderID = soldProductLedgerEntity.getOrderID();
+		soldProductLedgerRepository.unsuspend(sellerUUID, productName, price, orderID);
 	}
 
 }
