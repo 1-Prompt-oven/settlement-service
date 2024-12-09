@@ -1,5 +1,7 @@
 package com.promptoven.settlementservice.adaptor.jpa.entity;
 
+import java.time.LocalDate;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -12,30 +14,23 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "settlement_profile", indexes = {
-	@Index(name = "idx_settlement_profile_id", columnList = "settlementProfileID"),
-	@Index(name = "idx_settlement_profile_member_id", columnList = "memberID")})
+@Table(indexes = {
+	@Index(name = "idx_recordedAt", columnList = "recordedAt")})
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-public class SettlementProfileEntity {
+public class PlatformSettlementHistoryEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-
-	private String settlementProfileID;
-	private String memberID;
-	private String taxID;
-	private String accountID;
-	private String bankName;
-	private String phone;
-	private String postcode;
-	private String address;
-
-	public void SetID(Long ID) {
-		this.id = ID;
-	}
-
+	private LocalDate recordedAt;
+	private Long accumulatedSold;
+	private Long accumulatedEarned;
+	private Long accumulatedSettledForSellerTax;
+	private Long accumulatedSettledForAdminTax;
+	private Long thisYearSettledForAdminTax;
+	private Long thisYearSettledForSellerTax;
+	private Long thisYearEarned;
 }

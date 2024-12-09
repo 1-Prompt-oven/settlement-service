@@ -50,4 +50,43 @@ public class SettlementPersistenceImplByJpa implements SettlementProfilePersiste
 			JpaSettlementProfileDTOEntityMapper.toDTO(foundSettlementProfileEntity) : null;
 	}
 
+	@Override
+	public List<String> getSellerUUIDs() {
+		return settlementProfileRepository.findAllSellerUUID();
+	}
+
+	@Override
+	public String getTaxID(String sellerUUID) {
+		return settlementProfileRepository.findFirstTaxIDByMemberID(sellerUUID);
+	}
+
+}
+
+class JpaSettlementProfileDTOEntityMapper {
+
+	public static SettlementProfileEntity fromDTO(SettlementProfileDTO settlementProfileDTO) {
+		return SettlementProfileEntity.builder()
+			.settlementProfileID(settlementProfileDTO.getSettlementProfileID())
+			.memberID(settlementProfileDTO.getMemberID())
+			.taxID(settlementProfileDTO.getTaxID())
+			.bankName(settlementProfileDTO.getBankName())
+			.accountID(settlementProfileDTO.getAccountID())
+			.phone(settlementProfileDTO.getPhone())
+			.address(settlementProfileDTO.getAddress())
+			.postcode(settlementProfileDTO.getPostcode())
+			.build();
+	}
+
+	public static SettlementProfileDTO toDTO(SettlementProfileEntity settlementProfileEntity) {
+		return SettlementProfileDTO.builder()
+			.settlementProfileID(settlementProfileEntity.getSettlementProfileID())
+			.memberID(settlementProfileEntity.getMemberID())
+			.taxID(settlementProfileEntity.getTaxID())
+			.bankName(settlementProfileEntity.getBankName())
+			.accountID(settlementProfileEntity.getAccountID())
+			.phone(settlementProfileEntity.getPhone())
+			.address(settlementProfileEntity.getAddress())
+			.postcode(settlementProfileEntity.getPostcode())
+			.build();
+	}
 }

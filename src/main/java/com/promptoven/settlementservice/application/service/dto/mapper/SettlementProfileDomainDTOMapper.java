@@ -1,7 +1,8 @@
-package com.promptoven.settlementservice.application.service.dto;
+package com.promptoven.settlementservice.application.service.dto.mapper;
 
 import org.springframework.stereotype.Component;
 
+import com.promptoven.settlementservice.application.service.dto.SettlementProfileDTO;
 import com.promptoven.settlementservice.domain.SettlementProfile;
 
 @Component

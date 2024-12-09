@@ -1,14 +1,17 @@
-package com.promptoven.settlementservice.domain.dto;
+package com.promptoven.settlementservice.application.service.dto;
+
+import java.time.LocalDate;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 
-@AllArgsConstructor
 @Getter
+@AllArgsConstructor
 @Builder
-public class AccountSettlementModelDTO {
+public class AccountSettlementHistoryDTO {
 
+	private final LocalDate recordedAt;
 	private final String sellerUUID;
 	private final Long accumulatedSold;
 	private final Long accumulatedEarned;
@@ -17,5 +20,4 @@ public class AccountSettlementModelDTO {
 	private final Long thisYearNationalTax;
 	private final Long thisYearLocalTax;
 	private final Long thisYearPlatformCharge;
-
 }

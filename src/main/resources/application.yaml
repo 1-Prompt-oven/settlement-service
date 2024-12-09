@@ -4,38 +4,25 @@ spring:
   config:
     import:
       - classpath:eventTopic.yaml
-  datasource:
-    url: jdbc:mysql://localhost:3306/settlement
-    username: root
-    password: 1234
-  jpa:
-    hibernate:
-      ddl-auto: update
-    show-sql: true
-    properties:
-      hibernate:
-        format_sql: true
-
-server:
-  port: 0
-  shutdown: graceful
-
+      - classpath:taxRate.yaml
+  mail:
+    password: ${MAIL_PASSWORD}
+    username: kr.promptoven@gmail.com
 springdoc:
   api-docs:
     path: /v3/api-docs
   swagger-ui:
     path: /swagger-ui.html
-
-eureka:
-  client:
-    serviceUrl:
-      defaultZone: http://localhost:8761/eureka/
-    register-with-eureka: true
-    fetch-registry: true
-  instance:
-    prefer-ip-address: true
-    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
-
+mailing:
+  admin-and-investor:
+    - "astar5327z@gmail.com"
+    - "jaehunlee526@gmail.com"
+    - "yuseok.kim@edushare.kr"
+    - "singyu13@gmail.com"
+    - "jangdebug@gmail.com"
+    - "osb4469@gmail.com"
+    - "qjsduddl12@gmail.com"
+    - "hitkey0925@gmail.com"
 encrypter:
   secret-key: "IQDVvuZqN2ulwDf2qcPJ/J9kJqxkxhKApAvLf2bh3zw="
 
@@ -46,6 +33,7 @@ spring:
       on-profile: prod
     import:
       - classpath:eventTopic.yaml
+      - classpath:taxRate.yaml
       - "optional:configserver:http://config-server:8888"
   datasource:
     url: jdbc:mysql://mysql:3306/settlement
@@ -64,7 +52,7 @@ spring:
   cloud:
     config:
       fail-fast: false
-      name: settlement-service,eventTopic
+      name: settlement-service,eventTopic,taxRate
   kafka:
     text-bootstrap-servers: kafka-1:9092,kafka-2:9092,kafka-3:9092
     consumer:
@@ -80,4 +68,39 @@ eureka:
     fetch-registry: true
   instance:
     prefer-ip-address: false
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+---
+spring:
+  config:
+    activate:
+      on-profile: local
+    import:
+      - classpath:eventTopic.yaml
+      - classpath:taxRate.yaml
+  datasource:
+    url: jdbc:mysql://localhost:3306/settlement
+    username: root
+    password: 1234
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+  cloud:
+    config:
+      enabled: false
+server:
+  port: 0
+  shutdown: graceful
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+    register-with-eureka: true
+    fetch-registry: true
+  instance:
+    prefer-ip-address: true
     instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
