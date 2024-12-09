@@ -54,6 +54,7 @@ public class SettlementPersistenceImplByJpa implements SettlementProfilePersiste
 	public List<String> getSellerUUIDs() {
 		return settlementProfileRepository.findAllSellerUUID();
 	}
+
 }
 
 class JpaSettlementProfileDTOEntityMapper {

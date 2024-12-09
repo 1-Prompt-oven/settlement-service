@@ -15,4 +15,5 @@ public interface SettlementProfilePersistence {
 	SettlementProfileDTO getByProfileID(String profileID);
 
 	List<String> getSellerUUIDs();
+
 }

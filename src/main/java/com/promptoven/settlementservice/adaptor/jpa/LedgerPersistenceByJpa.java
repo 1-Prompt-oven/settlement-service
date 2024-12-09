@@ -41,6 +41,7 @@ public class LedgerPersistenceByJpa implements LedgerPersistence {
 			.map(DtoEntityMapper::toDTO)
 			.toList();
 	}
+
 }
 
 class DtoEntityMapper {
