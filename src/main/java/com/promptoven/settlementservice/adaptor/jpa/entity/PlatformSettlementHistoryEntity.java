@@ -15,8 +15,7 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Table(indexes = {
-	@Index(name = "idx_recordedAt", columnList = "recordedAt"),
-	@Index(name = "idx_sellerUUID", columnList = "sellerUUID")})
+	@Index(name = "idx_recordedAt", columnList = "recordedAt")})
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -31,4 +30,7 @@ public class PlatformSettlementHistoryEntity {
 	private Long accumulatedEarned;
 	private Long accumulatedSettledForSellerTax;
 	private Long accumulatedSettledForAdminTax;
+	private Long thisYearSettledForAdminTax;
+	private Long thisYearSettledForSellerTax;
+	private Long thisYearEarned;
 }

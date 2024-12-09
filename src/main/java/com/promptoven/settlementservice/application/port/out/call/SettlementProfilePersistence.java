@@ -16,4 +16,5 @@ public interface SettlementProfilePersistence {
 
 	List<String> getSellerUUIDs();
 
+	String getTaxID(String sellerUUID);
 }

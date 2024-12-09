@@ -98,8 +98,10 @@ class PlatformHistoryDtoEntityMapper {
 			.accumulatedEarned(platformSettlementHistoryEntity.getAccumulatedEarned())
 			.accumulatedSettledForSellerTax(platformSettlementHistoryEntity.getAccumulatedSettledForSellerTax())
 			.accumulatedSettledForAdminTax(platformSettlementHistoryEntity.getAccumulatedSettledForAdminTax())
+			.thisYearSettledForAdminTax(platformSettlementHistoryEntity.getThisYearSettledForAdminTax())
+			.thisYearSettledForSellerTax(platformSettlementHistoryEntity.getThisYearSettledForSellerTax())
+			.thisYearEarned(platformSettlementHistoryEntity.getThisYearEarned())
 			.build();
-
 	}
 
 	public static PlatformSettlementHistoryEntity toEntity(PlatformSettlementHistoryDTO platformSettlementHistoryDTO) {
@@ -109,6 +111,9 @@ class PlatformHistoryDtoEntityMapper {
 			.accumulatedEarned(platformSettlementHistoryDTO.getAccumulatedEarned())
 			.accumulatedSettledForSellerTax(platformSettlementHistoryDTO.getAccumulatedSettledForSellerTax())
 			.accumulatedSettledForAdminTax(platformSettlementHistoryDTO.getAccumulatedSettledForAdminTax())
+			.thisYearSettledForAdminTax(platformSettlementHistoryDTO.getThisYearSettledForAdminTax())
+			.thisYearSettledForSellerTax(platformSettlementHistoryDTO.getThisYearSettledForSellerTax())
+			.thisYearEarned(platformSettlementHistoryDTO.getThisYearEarned())
 			.build();
 	}
 }

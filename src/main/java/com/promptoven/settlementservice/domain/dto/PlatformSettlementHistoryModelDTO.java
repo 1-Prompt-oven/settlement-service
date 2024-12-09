@@ -16,4 +16,7 @@ public class PlatformSettlementHistoryModelDTO {
 	private final Long accumulatedEarned;
 	private final Long accumulatedSettledForSellerTax;
 	private final Long accumulatedSettledForAdminTax;
+	private final Long thisYearSettledForAdminTax;
+	private final Long thisYearSettledForSellerTax;
+	private final Long thisYearEarned;
 }

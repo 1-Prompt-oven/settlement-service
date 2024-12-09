@@ -18,6 +18,10 @@ public class PlatformSettlementHistory {
 	private final Long accumulatedEarned;
 	private final Long accumulatedSettledForSellerTax;
 	private final Long accumulatedSettledForAdminTax;
+	private final Long thisYearSettledForAdminTax;
+	private final Long thisYearSettledForSellerTax;
+	private final Long thisYearEarned;
+
 
 	public static PlatformSettlementHistory create(
 		PlatformSettlementHistoryModelDTO platformSettlementHistoryModelDTO) {
@@ -27,6 +31,9 @@ public class PlatformSettlementHistory {
 			.accumulatedEarned(platformSettlementHistoryModelDTO.getAccumulatedEarned())
 			.accumulatedSettledForSellerTax(platformSettlementHistoryModelDTO.getAccumulatedSettledForSellerTax())
 			.accumulatedSettledForAdminTax(platformSettlementHistoryModelDTO.getAccumulatedSettledForAdminTax())
+			.thisYearSettledForAdminTax(platformSettlementHistoryModelDTO.getThisYearSettledForAdminTax())
+			.thisYearSettledForSellerTax(platformSettlementHistoryModelDTO.getThisYearSettledForSellerTax())
+			.thisYearEarned(platformSettlementHistoryModelDTO.getThisYearEarned())
 			.build();
 	}
 }

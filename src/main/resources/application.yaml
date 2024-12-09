@@ -4,6 +4,7 @@ spring:
   config:
     import:
       - classpath:eventTopic.yaml
+      - classpath:taxRate.yaml
 
 springdoc:
   api-docs:
@@ -21,6 +22,7 @@ spring:
       on-profile: prod
     import:
       - classpath:eventTopic.yaml
+      - classpath:taxRate.yaml
       - "optional:configserver:http://config-server:8888"
   datasource:
     url: jdbc:mysql://mysql:3306/settlement
@@ -39,7 +41,7 @@ spring:
   cloud:
     config:
       fail-fast: false
-      name: settlement-service,eventTopic
+      name: settlement-service,eventTopic,taxRate
   kafka:
     text-bootstrap-servers: kafka-1:9092,kafka-2:9092,kafka-3:9092
     consumer:
@@ -63,6 +65,7 @@ spring:
       on-profile: local
     import:
       - classpath:eventTopic.yaml
+      - classpath:taxRate.yaml
   datasource:
     url: jdbc:mysql://localhost:3306/settlement
     username: root
