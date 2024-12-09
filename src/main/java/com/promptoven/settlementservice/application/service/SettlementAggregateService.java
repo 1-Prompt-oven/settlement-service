@@ -13,6 +13,7 @@ import com.promptoven.settlementservice.application.port.in.dto.SettlementHistor
 import com.promptoven.settlementservice.application.port.in.usecase.SettlementAggregateUsecase;
 import com.promptoven.settlementservice.application.port.out.call.AccountSettlementHistoryPersistence;
 import com.promptoven.settlementservice.application.port.out.call.LedgerPersistence;
+import com.promptoven.settlementservice.application.port.out.call.MailSending;
 import com.promptoven.settlementservice.application.port.out.call.SettlementProfilePersistence;
 import com.promptoven.settlementservice.application.service.dto.AccountSettlementHistoryDTO;
 import com.promptoven.settlementservice.application.service.dto.PlatformSettlementHistoryDTO;
@@ -37,6 +38,7 @@ public class SettlementAggregateService implements SettlementAggregateUsecase {
 	private final SettlementProfilePersistence settlementProfilePersistence;
 	private final KoreaTaxRateTable koreaTaxRateTable;
 	private final Encrypter encrypter;
+	private final MailSending mailSending;
 
 	@Value("${promptoven.charge-rate}")
 	double chargeRate;
@@ -145,8 +147,11 @@ public class SettlementAggregateService implements SettlementAggregateUsecase {
 				.thisYearEarned(previousSettlement.getThisYearEarned() + accumulatedPlatformCharge);
 		}
 
+		PlatformSettlementHistoryDTO platformSettlementHistoryDTO = builder.build();
 		// Save platform settlement history
-		accountSettlementHistoryPersistence.saveAdminReport(List.of(builder.build()));
+		accountSettlementHistoryPersistence.saveAdminReport(List.of(platformSettlementHistoryDTO));
+		mailSending.sendMail(platformSettlementHistoryDTO);
+
 	}
 
 	private PlatformSettlementHistoryDTO createEmptyPlatformSettlement(LocalDate date) {
