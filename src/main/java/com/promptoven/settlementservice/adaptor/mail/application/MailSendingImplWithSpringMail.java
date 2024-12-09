@@ -1,6 +1,8 @@
 package com.promptoven.settlementservice.adaptor.mail.application;
 
 import java.io.UnsupportedEncodingException;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Locale;
 import java.util.Properties;
 
@@ -16,6 +18,7 @@ import org.thymeleaf.spring6.SpringTemplateEngine;
 import com.promptoven.settlementservice.application.port.out.call.MailSending;
 import com.promptoven.settlementservice.application.service.dto.PlatformSettlementHistoryDTO;
 
+import jakarta.annotation.PostConstruct;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
@@ -37,7 +40,13 @@ public class MailSendingImplWithSpringMail implements MailSending {
 	private String password;
 
 	@Value("${mailing.admin-and-investor}")
-	private String[] receiver;
+	private List<String> receiver;
+
+	@PostConstruct
+	private void printInfo() {
+		System.out.println(receiver);
+		System.out.println(Arrays.toString(receiver.toArray(new String[0])));
+	}
 
 	private JavaMailSender getJavaMailSender() {
 		JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
@@ -64,15 +73,14 @@ public class MailSendingImplWithSpringMail implements MailSending {
 	public void sendMail(PlatformSettlementHistoryDTO platformSettlementHistoryDTO) {
 		JavaMailSender mailSender = getJavaMailSender();
 		MimeMessage message = mailSender.createMimeMessage();
+		String body = buildMailBody(platformSettlementHistoryDTO);
 
 		try {
 			MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
 			helper.setFrom(new InternetAddress(username, "PromptOven", "UTF-8"));
-			helper.setTo(receiver);
+			helper.setTo(receiver.toArray(new String[0]));
 			helper.setSubject("일일 결산 보고");
-
-			String mailBody = buildMailBody(platformSettlementHistoryDTO);
-			helper.setText(mailBody, true);
+			helper.setText(body, true);
 
 			mailSender.send(message);
 
