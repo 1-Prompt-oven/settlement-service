@@ -57,7 +57,7 @@ public class SettlementPersistenceImplByJpa implements SettlementProfilePersiste
 
 	@Override
 	public String getTaxID(String sellerUUID) {
-		return settlementProfileRepository.findFirstTaxIDByMemberID(sellerUUID);
+		return settlementProfileRepository.findFirstTaxIDByMemberID(sellerUUID).getFirst();
 	}
 
 }

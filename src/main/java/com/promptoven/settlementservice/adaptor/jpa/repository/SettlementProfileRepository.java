@@ -16,6 +16,6 @@ public interface SettlementProfileRepository extends JpaRepository<SettlementPro
 	@Query("select distinct s.memberID from SettlementProfileEntity s")
 	List<String> findAllSellerUUID();
 
-	@Query("select s.taxID from SettlementProfileEntity s where s.memberID = ?1 limit 1")
-	String findFirstTaxIDByMemberID(String sellerUUID);
+	@Query("select s.taxID from SettlementProfileEntity s where s.memberID = ?1")
+	List<String> findFirstTaxIDByMemberID(String sellerUUID);
 }
