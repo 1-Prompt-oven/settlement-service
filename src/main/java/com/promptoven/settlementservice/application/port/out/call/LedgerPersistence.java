@@ -11,9 +11,13 @@ public interface LedgerPersistence {
 
 	void record(SoldProductLedgerDTO soldProductLedgerDTO);
 
+	void recordSuspend(SoldProductLedgerDTO soldProductLedgerDTO);
+
 	List<SoldProductLedgerDTO> get(Pair<LocalDate, LocalDate> range, String targetUUID);
 
 	List<SoldProductLedgerDTO> getUnsettled(String targetUUID);
 
 	void markSettle(SoldProductLedgerDTO soldProductLedgerDTO);
+
+	void markUnSuspend(SoldProductLedgerDTO soldProductLedgerDTO);
 }

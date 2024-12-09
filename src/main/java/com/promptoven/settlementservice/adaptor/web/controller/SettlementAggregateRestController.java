@@ -7,6 +7,7 @@ import org.springframework.data.util.Pair;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -32,10 +33,46 @@ public class SettlementAggregateRestController {
 
 	private final SettlementAggregateUsecase settlementAggregateUsecase;
 
-	@PostMapping("/settlement/ledger")
+	@PostMapping("/member/settlement/ledger")
 	public BaseResponse<Void> receiveLedger(@RequestBody List<LedgerAppendRequestVO> ledgerAppendRequestVOList) {
 		ledgerAppendRequestVOList.forEach(ledgerAppendRequestVO ->
 			settlementAggregateUsecase.appendLedger(LedgerAppendRequestMapper.toDTO(ledgerAppendRequestVO))
+		);
+		return new BaseResponse<>();
+	}
+
+	@PostMapping("/member/settlement/ledgerSuspended")
+	public BaseResponse<Void> receiveLedgerSuspended(
+		@RequestBody List<LedgerAppendRequestVO> ledgerAppendRequestVOList) {
+		ledgerAppendRequestVOList.forEach(ledgerAppendRequestVO ->
+			settlementAggregateUsecase.appendSuspendedUserLedger(LedgerAppendRequestMapper.toDTO(ledgerAppendRequestVO))
+		);
+		return new BaseResponse<>();
+	}
+
+	@PostMapping("/member/settlement/platform/ledger")
+	public BaseResponse<Void> receivePlatformLedger(
+		@RequestBody List<LedgerAppendRequestVO> ledgerAppendRequestVOList) {
+		ledgerAppendRequestVOList.forEach(ledgerAppendRequestVO ->
+			settlementAggregateUsecase.appendPlatformLedger(LedgerAppendRequestMapper.toDTO(ledgerAppendRequestVO))
+		);
+		return new BaseResponse<>();
+	}
+
+	@PostMapping("/member/settlement/platform/ledgerSuspended")
+	public BaseResponse<Void> receivePlatformLedgerSuspended(
+		@RequestBody List<LedgerAppendRequestVO> ledgerAppendRequestVOList) {
+		ledgerAppendRequestVOList.forEach(ledgerAppendRequestVO ->
+			settlementAggregateUsecase.appendSuspendedPlatformLedger(
+				LedgerAppendRequestMapper.toDTO(ledgerAppendRequestVO))
+		);
+		return new BaseResponse<>();
+	}
+
+	@PutMapping("/member/settlement/unSuspend")
+	public BaseResponse<Void> unsuspend(@RequestBody List<LedgerAppendRequestVO> ledgerAppendRequestVOList) {
+		ledgerAppendRequestVOList.forEach(ledgerAppendRequestVO ->
+			settlementAggregateUsecase.unSuspend(LedgerAppendRequestMapper.toDTO(ledgerAppendRequestVO))
 		);
 		return new BaseResponse<>();
 	}

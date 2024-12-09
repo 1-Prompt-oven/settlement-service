@@ -29,4 +29,5 @@ public class SoldProductLedgerEntity {
 	private Long price;
 	private LocalDateTime soldAt;
 	private boolean settled;
+	private boolean suspended;
 }

@@ -12,7 +12,7 @@ import com.promptoven.settlementservice.adaptor.jpa.entity.SoldProductLedgerEnti
 
 public interface SoldProductLedgerRepository extends JpaRepository<SoldProductLedgerEntity, Long> {
 
-	@Query("select s from SoldProductLedgerEntity s where s.sellerUUID = ?1 and s.settled = ?2")
+	@Query("select s from SoldProductLedgerEntity s where s.sellerUUID = ?1 and s.settled = ?2 and s.suspended = false")
 	List<SoldProductLedgerEntity> findBySellerUUIDAndSettled(String sellerUUID, boolean settled);
 
 	@Query("select s from SoldProductLedgerEntity s where s.sellerUUID = ?1 and s.soldAt between ?2 and ?3")
@@ -21,4 +21,8 @@ public interface SoldProductLedgerRepository extends JpaRepository<SoldProductLe
 	@Modifying
 	@Query("update SoldProductLedgerEntity s set s.settled = true where s.soldAt = ?4 and s.settled = false and s.sellerUUID = ?1 and s.productName = ?2 and s.price = ?3")
 	void settle(String sellerUUID, String productName, Long price, LocalDateTime soldAt);
+
+	@Modifying
+	@Query("update SoldProductLedgerEntity s set s.suspended = false where s.soldAt = ?4 and s.settled = false and s.sellerUUID = ?1 and s.productName = ?2 and s.price = ?3")
+	void unsuspend(String sellerUUID, String productName, Long price, LocalDateTime soldAt);
 }

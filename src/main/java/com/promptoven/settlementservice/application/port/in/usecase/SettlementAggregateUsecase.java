@@ -14,4 +14,12 @@ public interface SettlementAggregateUsecase {
 	List<PlatformSettlementHistoryDTO> getAdminHistory(SettlementHistoryRequestDTO settlementHistoryRequestDTO);
 
 	void appendLedger(LedgerAppendRequestDTO ledgerAppendRequestDTO);
+
+	void appendSuspendedUserLedger(LedgerAppendRequestDTO ledgerAppendRequestDTO);
+
+	void appendPlatformLedger(LedgerAppendRequestDTO ledgerAppendRequestDTO);
+
+	void appendSuspendedPlatformLedger(LedgerAppendRequestDTO ledgerAppendRequestDTO);
+
+	void unSuspend(LedgerAppendRequestDTO ledgerAppendRequestDTO);
 }
