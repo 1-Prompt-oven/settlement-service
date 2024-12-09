@@ -23,7 +23,9 @@ import jakarta.mail.MessagingException;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class MailSendingImplWithSpringMail implements MailSending {
@@ -39,7 +41,7 @@ public class MailSendingImplWithSpringMail implements MailSending {
 	@Value("${spring.mail.password}")
 	private String password;
 
-	@Value("${mailing.admin-and-investor}")
+	@Value("#{'${mailing.admin-and-investor}'.split(',')}")
 	private List<String> receiver;
 
 	@PostConstruct
@@ -78,7 +80,19 @@ public class MailSendingImplWithSpringMail implements MailSending {
 		try {
 			MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
 			helper.setFrom(new InternetAddress(username, "PromptOven", "UTF-8"));
-			helper.setTo(receiver.toArray(new String[0]));
+			
+			InternetAddress[] addresses = receiver.stream()
+				.map(email -> {
+					try {
+						return new InternetAddress(email);
+					} catch (MessagingException e) {
+						log.error("Invalid email address: " + email, e);
+						return null;
+					}
+				})
+				.toArray(InternetAddress[]::new);
+				
+			helper.setTo(addresses);
 			helper.setSubject("일일 결산 보고");
 			helper.setText(body, true);
 
