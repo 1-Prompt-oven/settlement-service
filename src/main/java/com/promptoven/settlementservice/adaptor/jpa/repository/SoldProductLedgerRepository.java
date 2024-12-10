@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.promptoven.settlementservice.adaptor.jpa.entity.SoldProductLedgerEntity;
 
@@ -18,10 +19,12 @@ public interface SoldProductLedgerRepository extends JpaRepository<SoldProductLe
 	List<SoldProductLedgerEntity> findBySellerUUIDAndSoldAtIsBetween(String sellerUUID, LocalDate begin, LocalDate end);
 
 	@Modifying
+	@Transactional
 	@Query("update SoldProductLedgerEntity s set s.settled = true where s.orderID = ?4 and s.settled = false and s.sellerUUID = ?1 and s.productName = ?2 and s.price = ?3")
 	void settle(String sellerUUID, String productName, Long price, String orderID);
 
 	@Modifying
+	@Transactional
 	@Query("update SoldProductLedgerEntity s set s.suspended = false where s.orderID = ?4 and s.settled = false and s.sellerUUID = ?1 and s.productName = ?2 and s.price = ?3")
 	void unsuspend(String sellerUUID, String productName, Long price, String orderID);
 }
