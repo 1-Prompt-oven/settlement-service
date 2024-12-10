@@ -2,7 +2,7 @@ package com.promptoven.settlementservice.application.service;
 
 import java.time.LocalDate;
 import java.util.List;
-
+import java.util.concurrent.CompletableFuture;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.util.Pair;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -206,7 +206,7 @@ public class SettlementAggregateService implements SettlementAggregateUsecase {
 		PlatformSettlementHistoryDTO platformSettlementHistoryDTO = builder.build();
 		// Save platform settlement history
 		accountSettlementHistoryPersistence.saveAdminReport(List.of(platformSettlementHistoryDTO));
-		mailSending.sendMail(platformSettlementHistoryDTO);
+		CompletableFuture.runAsync(() -> mailSending.sendMail(platformSettlementHistoryDTO));
 
 	}
 
