@@ -75,6 +75,7 @@ public class LedgerPersistenceByJpa implements LedgerPersistence {
 
 class DtoEntityMapper {
 	public static SoldProductLedgerDTO toDTO(SoldProductLedgerEntity soldProductLedgerEntity) {
+		System.out.println("soldProductLedgerEntity's orderID: " + soldProductLedgerEntity.getOrderID());
 		return SoldProductLedgerDTO.builder()
 			.sellerUUID(soldProductLedgerEntity.getSellerUUID())
 			.productName(soldProductLedgerEntity.getProductName())
