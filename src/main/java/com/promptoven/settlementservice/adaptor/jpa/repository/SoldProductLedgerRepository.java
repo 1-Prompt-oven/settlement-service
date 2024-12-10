@@ -1,6 +1,6 @@
 package com.promptoven.settlementservice.adaptor.jpa.repository;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -16,7 +16,7 @@ public interface SoldProductLedgerRepository extends JpaRepository<SoldProductLe
 	List<SoldProductLedgerEntity> findBySellerUUIDAndSettled(String sellerUUID, boolean settled);
 
 	@Query("select s from SoldProductLedgerEntity s where s.sellerUUID = ?1 and s.soldAt between ?2 and ?3")
-	List<SoldProductLedgerEntity> findBySellerUUIDAndSoldAtIsBetween(String sellerUUID, LocalDate begin, LocalDate end);
+	List<SoldProductLedgerEntity> findBySellerUUIDAndSoldAtIsBetween(String sellerUUID, LocalDateTime begin, LocalDateTime end);
 
 	@Modifying
 	@Transactional
