@@ -3,8 +3,10 @@ package com.promptoven.settlementservice.application.service;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.util.Pair;
+import org.springframework.lang.Nullable;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -111,13 +113,14 @@ public class SettlementAggregateService implements SettlementAggregateUsecase {
 	}
 
 	@Override
+	@Transactional
 	public void testSchedule() {
 		LocalDate targetDate = LocalDate.now().minusDays(1);
 		LocalDate refererDate = targetDate.minusDays(1);
 		List<PlatformSettlementHistoryDTO> previousPlatformData =
 			accountSettlementHistoryPersistence.prepareAdminReport(Pair.of(refererDate, targetDate));
 		if (previousPlatformData.isEmpty()) {
-			settleLedger();
+			settleLedger(null);
 		}
 	}
 
@@ -134,9 +137,12 @@ public class SettlementAggregateService implements SettlementAggregateUsecase {
 
 	@Transactional
 	@Scheduled(cron = "0 0 0 * * *") // Runs at 01:00 UTC daily
-	public void settleLedger() {
+	public void settleLedger(@Nullable LocalDate target) {
 		log.info("settlement system start daily aggregation");
 		LocalDate targetDate = LocalDate.now().minusDays(1);
+		if (null != target) {
+			targetDate = target;
+		}
 		LocalDate refererDate = targetDate.minusDays(1);
 
 		long accumulatedSold = 0L;
@@ -166,7 +172,8 @@ public class SettlementAggregateService implements SettlementAggregateUsecase {
 
 		accumulatedPlatformCharge += platformSalesTrace();
 
-		long accumulatedTaxOfPlatform = (long)(calculatePlatformTax(accumulatedPlatformCharge)*(1+koreaTaxRateTable.koreaRegionalTaxRate));
+		long accumulatedTaxOfPlatform = (long)(calculatePlatformTax(accumulatedPlatformCharge) * (1
+			+ koreaTaxRateTable.koreaRegionalTaxRate));
 
 		// Get previous platform settlement data
 		List<PlatformSettlementHistoryDTO> previousPlatformData =
@@ -225,7 +232,7 @@ public class SettlementAggregateService implements SettlementAggregateUsecase {
 	}
 
 	@Transactional
-	private AccountSettlementHistoryDTO logAccountSettlementHistory(
+	public AccountSettlementHistoryDTO logAccountSettlementHistory(
 		String sellerUUID, AccountSettlementHistoryDTO previousData, LocalDate targetDate) {
 
 		List<SoldProductLedgerDTO> unsettledLedgers = ledgerPersistence.getUnsettled(sellerUUID);
@@ -243,12 +250,16 @@ public class SettlementAggregateService implements SettlementAggregateUsecase {
 
 		// Add null checks when accessing previousData
 		long prevAccumulatedSold = previousData.getAccumulatedSold() != null ? previousData.getAccumulatedSold() : 0L;
-		long prevAccumulatedEarned = previousData.getAccumulatedEarned() != null ? previousData.getAccumulatedEarned() : 0L;
-		long prevAccumulatedSettled = previousData.getAccumulatedSettled() != null ? previousData.getAccumulatedSettled() : 0L;
+		long prevAccumulatedEarned =
+			previousData.getAccumulatedEarned() != null ? previousData.getAccumulatedEarned() : 0L;
+		long prevAccumulatedSettled =
+			previousData.getAccumulatedSettled() != null ? previousData.getAccumulatedSettled() : 0L;
 		long prevYearLocalTax = previousData.getThisYearLocalTax() != null ? previousData.getThisYearLocalTax() : 0L;
 		long prevYearlyEarned = previousData.getThisYearlyEarned() != null ? previousData.getThisYearlyEarned() : 0L;
-		long prevYearNationalTax = previousData.getThisYearNationalTax() != null ? previousData.getThisYearNationalTax() : 0L;
-		long prevYearPlatformCharge = previousData.getThisYearPlatformCharge() != null ? previousData.getThisYearPlatformCharge() : 0L;
+		long prevYearNationalTax =
+			previousData.getThisYearNationalTax() != null ? previousData.getThisYearNationalTax() : 0L;
+		long prevYearPlatformCharge =
+			previousData.getThisYearPlatformCharge() != null ? previousData.getThisYearPlatformCharge() : 0L;
 
 		AccountSettlementHistoryDTO.AccountSettlementHistoryDTOBuilder builder = AccountSettlementHistoryDTO.builder()
 			.sellerUUID(sellerUUID)
