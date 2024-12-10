@@ -27,8 +27,8 @@ public class settlementTestInitializer implements ApplicationListener<Applicatio
 	private final LedgerPersistence ledgerPersistence;
 	private final SettlementProfilePersistence settlementProfilePersistence;
 
-	private final List<LocalDate> dates = LocalDate.of(2023, 10, 1)
-		.datesUntil(LocalDate.of(2024, 12, 8))
+	private final List<LocalDate> dates = LocalDate.of(2023, 12, 1)
+		.datesUntil(LocalDate.now())
 		.toList();
 
 	@Override
