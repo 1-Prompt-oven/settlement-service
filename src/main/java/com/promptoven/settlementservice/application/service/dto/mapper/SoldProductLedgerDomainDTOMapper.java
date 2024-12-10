@@ -15,6 +15,7 @@ public class SoldProductLedgerDomainDTOMapper {
 			.price(ledgerProductSelling.getPrice())
 			.soldAt(ledgerProductSelling.getSoldAt())
 			.settled(ledgerProductSelling.isSettled())
+			.orderID(ledgerProductSelling.getOrderID())
 			.build();
 	}
 
@@ -25,6 +26,7 @@ public class SoldProductLedgerDomainDTOMapper {
 			.price(soldProductLedgerDTO.getPrice())
 			.soldAt(soldProductLedgerDTO.getSoldAt())
 			.settled(soldProductLedgerDTO.isSettled())
+			.orderID(soldProductLedgerDTO.getOrderID())
 			.build();
 	}
 
