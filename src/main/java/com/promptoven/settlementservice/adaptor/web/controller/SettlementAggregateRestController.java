@@ -107,6 +107,12 @@ public class SettlementAggregateRestController {
 		}
 	}
 
+	@PostMapping("/admin/settlement/run")
+	public BaseResponse<Void> runScheduledJobTest() {
+		settlementAggregateUsecase.testSchedule();
+		return new BaseResponse<>();
+	}
+
 	Pair<LocalDate, LocalDate> queryRange(LocalDate begin, LocalDate end) {
 		return Pair.of(begin, end);
 	}

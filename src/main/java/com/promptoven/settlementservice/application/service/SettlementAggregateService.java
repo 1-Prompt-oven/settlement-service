@@ -109,6 +109,17 @@ public class SettlementAggregateService implements SettlementAggregateUsecase {
 				LedgerProductSelling.log(ledgerProductSellingModelDTO)));
 	}
 
+	@Override
+	public void testSchedule() {
+		LocalDate targetDate = LocalDate.now().minusDays(1);
+		LocalDate refererDate = targetDate.minusDays(1);
+		List<PlatformSettlementHistoryDTO> previousPlatformData =
+			accountSettlementHistoryPersistence.prepareAdminReport(Pair.of(refererDate, targetDate));
+		if (previousPlatformData.isEmpty()) {
+			settleLedger();
+		}
+	}
+
 	private LedgerProductSellingModelDTO convertLedgerAppendRequestDTOToLedgerProductSellingModelDTO(
 		LedgerAppendRequestDTO ledgerAppendRequestDTO) {
 		return LedgerProductSellingModelDTO.builder()

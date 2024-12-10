@@ -22,4 +22,6 @@ public interface SettlementAggregateUsecase {
 	void appendSuspendedPlatformLedger(LedgerAppendRequestDTO ledgerAppendRequestDTO);
 
 	void unSuspend(LedgerAppendRequestDTO ledgerAppendRequestDTO);
+
+	void testSchedule();
 }
