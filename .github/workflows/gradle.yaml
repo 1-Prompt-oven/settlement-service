@@ -53,9 +53,9 @@ jobs:
           username: ubuntu
           key: ${{ secrets.EC2_KEY }}
           script: |
+            sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/settlement-service
             sudo docker stop settlement-service || true
             sudo docker rm -f settlement-service || true
-            sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/settlement-service
             cd /home/ubuntu/settlement-service
             echo "SPRING_PROFILES_ACTIVE=prod" > .env
             sudo docker-compose up -d
