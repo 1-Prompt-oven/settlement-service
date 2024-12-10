@@ -165,7 +165,7 @@ public class SettlementAggregateService implements SettlementAggregateUsecase {
 
 		accumulatedPlatformCharge += platformSalesTrace();
 
-		long accumulatedTaxOfPlatform = calculatePlatformTax(accumulatedPlatformCharge);
+		long accumulatedTaxOfPlatform = (long)(calculatePlatformTax(accumulatedPlatformCharge)*(1+koreaTaxRateTable.koreaRegionalTaxRate));
 
 		// Get previous platform settlement data
 		List<PlatformSettlementHistoryDTO> previousPlatformData =
@@ -307,13 +307,13 @@ public class SettlementAggregateService implements SettlementAggregateUsecase {
 
 		if (isBusinessRegistered || totalSales > koreaTaxRateTable.koreaIndividualBusinessBorder) {
 			long nationalTax = (long)(totalSales * koreaTaxRateTable.koreaIndividualBusinessRate);
-			long regionalTax = (long)(totalSales * koreaTaxRateTable.koreaRegionalTaxRate);
+			long regionalTax = (long)(nationalTax * koreaTaxRateTable.koreaRegionalTaxRate);
 			return Pair.of(nationalTax, regionalTax);
 		} else if (totalSales < koreaTaxRateTable.koreaOtherIgnoreBorder) {
 			return Pair.of(0L, 0L);
 		} else {
 			long nationalTax = (long)(totalSales * koreaTaxRateTable.koreaIndividualOtherRate);
-			long regionalTax = (long)(totalSales * koreaTaxRateTable.koreaRegionalTaxRate);
+			long regionalTax = (long)(nationalTax * koreaTaxRateTable.koreaRegionalTaxRate);
 			return Pair.of(nationalTax, regionalTax);
 		}
 	}

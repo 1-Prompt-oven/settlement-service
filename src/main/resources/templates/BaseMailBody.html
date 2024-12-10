@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>일일 결산 보고</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .header {
+            background-color: #4a90e2;
+            color: white;
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .section {
+            margin-bottom: 30px;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+        }
+        .data-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            padding: 10px 0;
+            border-bottom: 1px solid #dee2e6;
+        }
+        .label {
+            font-weight: bold;
+            color: #495057;
+        }
+        .value {
+            color: #212529;
+            font-weight: 500;
+        }
+        h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+        h2 {
+            color: #4a90e2;
+            margin-bottom: 15px;
+            font-size: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo" style="display: flex; align-items: center; justify-content: center"><img alt="PromptOven"
+            src="data:image/png;base64,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"/>
+        </div>
+        <div class="header">
+            <h1 th:text="${recordedAt} + ' 일일 결산 보고'">일일 결산 보고</h1>
+        </div>
+
+        <div class="section">
+            <h2>누적 데이터</h2>
+            <div class="data-row">
+                <span class="label">총 누적 판매액:</span>
+                <span class="value" th:text="${#numbers.formatDecimal(accumulatedSold, 0, 'COMMA', 0, 'POINT')} + '원'">0원</span>
+            </div>
+            <div class="data-row">
+                <span class="label">누적 플랫폼 수익:</span>
+                <span class="value" th:text="${#numbers.formatDecimal(accumulatedEarned, 0, 'COMMA', 0, 'POINT')} + '원'">0원</span>
+            </div>
+            <div class="data-row">
+                <span class="label">누적 판매자 세금:</span>
+                <span class="value" th:text="${#numbers.formatDecimal(accumulatedSettledForSellerTax, 0, 'COMMA', 0, 'POINT')} + '원'">0원</span>
+            </div>
+            <div class="data-row">
+                <span class="label">누적 플랫폼 세금:</span>
+                <span class="value" th:text="${#numbers.formatDecimal(accumulatedSettledForAdminTax, 0, 'COMMA', 0, 'POINT')} + '원'">0원</span>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>연간 데이터</h2>
+            <div class="data-row">
+                <span class="label">연간 플랫폼 수익:</span>
+                <span class="value" th:text="${#numbers.formatDecimal(thisYearEarned, 0, 'COMMA', 0, 'POINT')} + '원'">0원</span>
+            </div>
+            <div class="data-row">
+                <span class="label">연간 판매자 세금:</span>
+                <span class="value" th:text="${#numbers.formatDecimal(thisYearSettledForSellerTax, 0, 'COMMA', 0, 'POINT')} + '원'">0원</span>
+            </div>
+            <div class="data-row">
+                <span class="label">연간 플랫폼 세금:</span>
+                <span class="value" th:text="${#numbers.formatDecimal(thisYearSettledForAdminTax, 0, 'COMMA', 0, 'POINT')} + '원'">0원</span>
+            </div>
+        </div>
+
+        <div class="section">
+            <p>본 보고서는 자동으로 생성된 문서입니다.</p>
+            <p>문의사항이 있으시면 관리자에게 연락 부탁드립니다.</p>
+        </div>
+    </div>
+</body>
+</html>
