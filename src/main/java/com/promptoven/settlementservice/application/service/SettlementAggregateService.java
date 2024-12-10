@@ -119,8 +119,8 @@ public class SettlementAggregateService implements SettlementAggregateUsecase {
 			.build();
 	}
 
-	@Scheduled(cron = "0 5 0 * * *") // Runs at 00:05 UTC daily
-	private void settleLedger() {
+	@Scheduled(cron = "0 0 1 * * *") // Runs at 01:00 UTC daily
+	public void settleLedger() {
 		LocalDate targetDate = LocalDate.now().minusDays(1);
 		LocalDate refererDate = targetDate.minusDays(1);
 
