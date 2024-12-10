@@ -51,6 +51,7 @@ public class LedgerPersistenceByJpa implements LedgerPersistence {
 	@Override
 	@Transactional
 	public void markSettle(SoldProductLedgerDTO soldProductLedgerDTO) {
+		log.info("markSettle: soldProductLedgerDTO={}", soldProductLedgerDTO);
 		SoldProductLedgerEntity soldProductLedgerEntity = DtoEntityMapper.toEntity(soldProductLedgerDTO);
 		String sellerUUID = soldProductLedgerEntity.getSellerUUID();
 		String productName = soldProductLedgerEntity.getProductName();
