@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.util.Pair;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.promptoven.settlementservice.application.port.in.dto.LedgerAppendRequestDTO;
 import com.promptoven.settlementservice.application.port.in.dto.SettlementHistoryRequestDTO;
@@ -130,6 +131,7 @@ public class SettlementAggregateService implements SettlementAggregateUsecase {
 			.build();
 	}
 
+	@Transactional
 	@Scheduled(cron = "0 0 0 * * *") // Runs at 01:00 UTC daily
 	public void settleLedger() {
 		log.info("settlement system start daily aggregation");
