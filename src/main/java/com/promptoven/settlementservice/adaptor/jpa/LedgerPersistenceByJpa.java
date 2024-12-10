@@ -56,6 +56,7 @@ public class LedgerPersistenceByJpa implements LedgerPersistence {
 		String productName = soldProductLedgerEntity.getProductName();
 		Long price = soldProductLedgerEntity.getPrice();
 		String orderID = soldProductLedgerEntity.getOrderID();
+		log.info("markSettle: sellerUUID={}, productName={}, price={}, orderID={}", sellerUUID, productName, price, orderID);
 		soldProductLedgerRepository.settle(sellerUUID, productName, price, orderID);
 	}
 
