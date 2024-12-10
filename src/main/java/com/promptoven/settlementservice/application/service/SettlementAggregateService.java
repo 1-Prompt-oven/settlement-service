@@ -285,6 +285,8 @@ public class SettlementAggregateService implements SettlementAggregateUsecase {
 			long nationalTax = (long)(totalSales * koreaTaxRateTable.koreaIndividualBusinessRate);
 			long regionalTax = (long)(totalSales * koreaTaxRateTable.koreaRegionalTaxRate);
 			return Pair.of(nationalTax, regionalTax);
+		} else if (totalSales < koreaTaxRateTable.koreaOtherIgnoreBorder) {
+			return Pair.of(0L, 0L);
 		} else {
 			long nationalTax = (long)(totalSales * koreaTaxRateTable.koreaIndividualOtherRate);
 			long regionalTax = (long)(totalSales * koreaTaxRateTable.koreaRegionalTaxRate);
