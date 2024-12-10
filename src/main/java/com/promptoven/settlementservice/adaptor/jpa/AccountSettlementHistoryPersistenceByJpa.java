@@ -75,6 +75,7 @@ class AccountHistoryDtoEntityMapper {
 			.sellerUUID(accountSettlementHistoryEntity.getSellerUUID())
 			.accumulatedEarned(accountSettlementHistoryEntity.getAccumulatedEarned())
 			.accumulatedSettled(accountSettlementHistoryEntity.getAccumulatedSettled())
+			.accumulatedSold(accountSettlementHistoryEntity.getAccumulatedSold())
 			.thisYearlyEarned(accountSettlementHistoryEntity.getThisYearlyEarned())
 			.build();
 	}
@@ -85,6 +86,7 @@ class AccountHistoryDtoEntityMapper {
 			.sellerUUID(accountSettlementHistoryDTO.getSellerUUID())
 			.accumulatedEarned(accountSettlementHistoryDTO.getAccumulatedEarned())
 			.accumulatedSettled(accountSettlementHistoryDTO.getAccumulatedSettled())
+			.accumulatedSold(accountSettlementHistoryDTO.getAccumulatedSold())
 			.thisYearlyEarned(accountSettlementHistoryDTO.getThisYearlyEarned())
 			.build();
 	}
