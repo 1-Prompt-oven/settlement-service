@@ -128,6 +128,7 @@ public class SettlementAggregateService implements SettlementAggregateUsecase {
 			.productName(ledgerAppendRequestDTO.getProductName())
 			.price(ledgerAppendRequestDTO.getPrice())
 			.soldAt(ledgerAppendRequestDTO.getSoldAt())
+			.orderID(ledgerAppendRequestDTO.getOrderID())
 			.build();
 	}
 
