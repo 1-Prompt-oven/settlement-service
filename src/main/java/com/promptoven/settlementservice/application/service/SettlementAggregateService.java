@@ -239,12 +239,21 @@ public class SettlementAggregateService implements SettlementAggregateUsecase {
 		long sellerRegionalTax = sellerTaxes.getSecond();
 		long earned = totalSales - platformCharge - sellerNationalTax - sellerRegionalTax;
 
+		// Add null checks when accessing previousData
+		long prevAccumulatedSold = previousData.getAccumulatedSold() != null ? previousData.getAccumulatedSold() : 0L;
+		long prevAccumulatedEarned = previousData.getAccumulatedEarned() != null ? previousData.getAccumulatedEarned() : 0L;
+		long prevAccumulatedSettled = previousData.getAccumulatedSettled() != null ? previousData.getAccumulatedSettled() : 0L;
+		long prevYearLocalTax = previousData.getThisYearLocalTax() != null ? previousData.getThisYearLocalTax() : 0L;
+		long prevYearlyEarned = previousData.getThisYearlyEarned() != null ? previousData.getThisYearlyEarned() : 0L;
+		long prevYearNationalTax = previousData.getThisYearNationalTax() != null ? previousData.getThisYearNationalTax() : 0L;
+		long prevYearPlatformCharge = previousData.getThisYearPlatformCharge() != null ? previousData.getThisYearPlatformCharge() : 0L;
+
 		AccountSettlementHistoryDTO.AccountSettlementHistoryDTOBuilder builder = AccountSettlementHistoryDTO.builder()
 			.sellerUUID(sellerUUID)
 			.recordedAt(targetDate)
-			.accumulatedSold(previousData.getAccumulatedSold() + totalSales)
-			.accumulatedEarned(previousData.getAccumulatedEarned() + earned)
-			.accumulatedSettled(previousData.getAccumulatedSettled());
+			.accumulatedSold(prevAccumulatedSold + totalSales)
+			.accumulatedEarned(prevAccumulatedEarned + earned)
+			.accumulatedSettled(prevAccumulatedSettled);
 
 		if (targetDate.getDayOfYear() == 1) {
 			// Reset yearly calculations on January 1st
@@ -254,10 +263,10 @@ public class SettlementAggregateService implements SettlementAggregateUsecase {
 				.thisYearPlatformCharge(platformCharge);
 		} else {
 			// Add to existing yearly calculations
-			builder.thisYearLocalTax(previousData.getThisYearLocalTax() + sellerRegionalTax)
-				.thisYearlyEarned(previousData.getThisYearlyEarned() + earned)
-				.thisYearNationalTax(previousData.getThisYearNationalTax() + sellerNationalTax)
-				.thisYearPlatformCharge(previousData.getThisYearPlatformCharge() + platformCharge);
+			builder.thisYearLocalTax(prevYearLocalTax + sellerRegionalTax)
+				.thisYearlyEarned(prevYearlyEarned + earned)
+				.thisYearNationalTax(prevYearNationalTax + sellerNationalTax)
+				.thisYearPlatformCharge(prevYearPlatformCharge + platformCharge);
 		}
 
 		AccountSettlementHistoryDTO settlement = builder.build();
