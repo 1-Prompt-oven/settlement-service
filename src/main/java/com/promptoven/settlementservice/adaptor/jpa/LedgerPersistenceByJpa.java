@@ -1,11 +1,11 @@
 package com.promptoven.settlementservice.adaptor.jpa;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.promptoven.settlementservice.adaptor.jpa.entity.SoldProductLedgerEntity;
 import com.promptoven.settlementservice.adaptor.jpa.repository.SoldProductLedgerRepository;
@@ -49,6 +49,7 @@ public class LedgerPersistenceByJpa implements LedgerPersistence {
 	}
 
 	@Override
+	@Transactional
 	public void markSettle(SoldProductLedgerDTO soldProductLedgerDTO) {
 		SoldProductLedgerEntity soldProductLedgerEntity = DtoEntityMapper.toEntity(soldProductLedgerDTO);
 		String sellerUUID = soldProductLedgerEntity.getSellerUUID();
@@ -64,7 +65,6 @@ public class LedgerPersistenceByJpa implements LedgerPersistence {
 		String sellerUUID = soldProductLedgerEntity.getSellerUUID();
 		String productName = soldProductLedgerEntity.getProductName();
 		Long price = soldProductLedgerEntity.getPrice();
-		LocalDateTime soldAt = soldProductLedgerEntity.getSoldAt();
 		String orderID = soldProductLedgerEntity.getOrderID();
 		soldProductLedgerRepository.unsuspend(sellerUUID, productName, price, orderID);
 	}

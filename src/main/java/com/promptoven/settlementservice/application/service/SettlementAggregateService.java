@@ -223,6 +223,7 @@ public class SettlementAggregateService implements SettlementAggregateUsecase {
 			.build();
 	}
 
+	@Transactional
 	private AccountSettlementHistoryDTO logAccountSettlementHistory(
 		String sellerUUID, AccountSettlementHistoryDTO previousData, LocalDate targetDate) {
 
